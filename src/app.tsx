@@ -3,6 +3,7 @@ import study from './study-store'
 import learn from './learn-store'
 import LearnView from './learn-view'
 import ExamView from './exam-view'
+import About from './about'
 
 const tab = (active: boolean) =>
   `flex h-13 flex-1 items-center justify-center gap-2 rounded-full text-[15px] font-bold transition-colors ${
@@ -24,6 +25,13 @@ export default class App extends Component {
                   E
                 </div>
                 <span class="flex-1 font-heading text-[28px] leading-none font-extrabold">Ehliyetçik</span>
+                <button
+                  class="flex size-11 items-center justify-center rounded-full bg-brand-600 transition-colors hover:bg-brand-700"
+                  aria-label="Hakkında"
+                  click={learn.toggleAbout}
+                >
+                  <span class="icon icon-info" />
+                </button>
                 <button
                   class="flex size-11 items-center justify-center rounded-full bg-brand-600 transition-colors hover:bg-brand-700"
                   aria-label="Ses ayarları"
@@ -61,6 +69,7 @@ export default class App extends Component {
               />
             </div>
           )}
+          {learn.about && <About />}
           <main class="flex min-h-0 flex-1 flex-col">{study.mode === 'learn' ? <LearnView /> : <ExamView />}</main>
           <nav class="px-6 pt-2 pb-[max(env(safe-area-inset-bottom),22px)]">
             <div class="flex gap-1.5 rounded-full bg-sand-100 p-1.5 shadow-soft">

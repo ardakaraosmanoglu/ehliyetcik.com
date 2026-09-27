@@ -16,6 +16,7 @@ class LearnStore extends Store {
   muted = load('ehliyetcik.muted', false)
   volume = load('ehliyetcik.volume', 1)
   soundMenu = false
+  about = false
   seen: number[] = load('ehliyetcik.seen', [])
   timer = 0
 
@@ -81,6 +82,11 @@ class LearnStore extends Store {
 
   prev() {
     this.slide(-1)
+  }
+
+  toggleAbout() {
+    this.about = !this.about
+    this.soundMenu = false
   }
 
   toggleSoundMenu() {
