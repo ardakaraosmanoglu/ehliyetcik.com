@@ -9,9 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/ios": "^8.5.2",
+    "@fontsource/baloo-2": "^5.3.0",
+    "@fontsource/figtree": "^5.3.0",
     "@geajs/core": "^1.0.0"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.5.2",
     "@geajs/vite-plugin": "^1.0.0",
     "@tailwindcss/vite": "^4.3.3",
     "tailwindcss": "^4.3.3",

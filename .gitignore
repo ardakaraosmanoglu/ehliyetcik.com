@@ -2,3 +2,5 @@ node_modules
 dist
 .playwright-mcp
 .cache
+ios/App/Pods
+ios/App/App/public

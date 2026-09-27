@@ -1,4 +1,4 @@
-.PHONY: install dev build preview clean audio
+.PHONY: install dev build preview clean audio ios
 
 install: node_modules
 node_modules: package.json
@@ -13,6 +13,11 @@ build: node_modules
 
 preview: build
 	npx vite preview
+
+# Build, sync into the iOS app, open Xcode (Run there to install on iPhone)
+ios: build
+	npx cap sync ios
+	npx cap open ios
 
 clean:
 	rm -rf node_modules dist
