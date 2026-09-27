@@ -65,9 +65,9 @@ export default class ExamView extends Component {
         />
         <div class={`flex min-h-0 flex-1 flex-col gap-3 overflow-hidden rounded-[40px] bg-sand-100 shadow-card ${open ? 'px-[22px] py-5' : 'p-7'}`}>
           <div class={visual ? 'flex min-h-0 flex-1 items-center justify-center' : 'hidden'}>
-            <div class={`flex items-center justify-center gap-1 px-6 rounded-full bg-brand-200 transition-all duration-350 ${open ? 'size-[130px]' : 'size-[230px]'}`}>
+            <div class={q.images ? 'flex w-full flex-wrap items-center justify-center gap-2 rounded-[32px] bg-brand-200 p-3' : `flex items-center justify-center rounded-full bg-brand-200 transition-all duration-350 ${open ? 'size-[130px]' : 'size-[230px]'}`}>
               {(q.images || [q.image || '']).map((src) => (
-                  <img src={src} alt="" class={`min-w-0 flex-1 object-contain drop-shadow-[0_4px_8px_rgba(46,43,37,.18)] transition-all duration-350 ${open ? 'max-h-24 max-w-24' : 'max-h-[170px] max-w-[170px]'}`} />
+                  <img src={src} alt="" class={`object-contain drop-shadow-[0_4px_8px_rgba(46,43,37,.18)] transition-all duration-350 ${q.images ? (open ? 'size-16' : 'size-[120px]') : open ? 'size-24' : 'size-[170px]'}`} />
                 ))}
             </div>
           </div>

@@ -64,9 +64,9 @@ export default class LearnView extends Component {
             pointercancel={up}
           >
             <div class={visual ? 'flex min-h-0 flex-1 items-center justify-center' : 'hidden'}>
-              <div class="flex size-[230px] max-h-full max-w-full items-center justify-center rounded-full bg-brand-200 gap-1 px-8">
+              <div class={q.images ? 'flex w-full flex-wrap items-center justify-center gap-2 rounded-[32px] bg-brand-200 p-3' : 'flex size-[230px] max-h-full max-w-full items-center justify-center rounded-full bg-brand-200'}>
                 {(q.images || [q.image || '']).map((src) => (
-                  <img src={src} alt="" draggable={false} class="pointer-events-none min-w-0 flex-1 max-w-[170px] max-h-[170px] object-contain drop-shadow-[0_4px_8px_rgba(46,43,37,.18)]" />
+                  <img src={src} alt="" draggable={false} class={`pointer-events-none object-contain ${q.images ? 'size-[120px]' : 'size-[170px]'} drop-shadow-[0_4px_8px_rgba(46,43,37,.18)]`} />
                 ))}
               </div>
             </div>
