@@ -16,7 +16,7 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 - Icons: Lucide paths as CSS masks (`.icon .icon-*` in `src/styles.css`), no emojis in UI chrome.
 
 ## Audio (TTS)
-- Every question needs `public/audio/<id>.mp3` (answer); text questions also `<id>-q.mp3` (question, read first). Piper, `make audio`. `src/audio.ts` plays clips in order and speeds them up (max 2.5x) to fit the auto-advance time. Missing files fall back to the browser voice.
+- Every question needs `public/audio/<id>.mp3` (answer); text questions also `<id>-q.mp3` (question, read first). Piper, `make audio`. `src/audio.ts` plays clips in order at a fixed 1.1x and reports when reading ended. Missing files fall back to the browser voice.
 - `make dev`/`make build` run `make audio` first, so new questions get clips automatically (existing files are skipped).
 
 ## Stack
@@ -37,11 +37,11 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 - `src/app.tsx` — root component
 - `src/study-store.ts` — mode (learn/exam), kind (image/text), exam run + results + retry wrong answers
 - `src/storage.ts` — safe localStorage `load`/`store`
-- `src/learn-store.ts` — Öğren player: in-order, loops, auto-advance (fixed 5 sn, play/pause icon button next to the counter), plays `public/audio/<id>.mp3` (Piper), falls back to `speechSynthesis`
+- `src/learn-store.ts` — Öğren player: in-order, loops, auto-advance 1 sn after reading ends (muted: text length / 14 chars per sec + 1 sn), play/pause icon button next to the counter, plays `public/audio/<id>.mp3` (Piper), falls back to `speechSynthesis`
 - `src/start-screen.tsx` — shared home screen (pick İşaretler/Kurallar + start) for both modes
 - Header progress = cards seen in Öğren (localStorage `ehliyetcik.seen`)
-- Header speaker button opens a sound menu: mute toggle + volume slider; saved in localStorage `ehliyetcik.muted` / `ehliyetcik.volume`. Volume uses a Web Audio GainNode (iOS ignores `audio.volume`)
-- `src/audio.ts` — clip playback + speed-to-fit + browser-voice fallback
+- Header speaker button opens a sound menu: mute toggle + volume slider; saved in localStorage `ehliyetcik.muted` / `ehliyetcik.volume`. Closes on outside tap or Escape. Volume uses a Web Audio GainNode (iOS ignores `audio.volume`)
+- `src/audio.ts` — clip playback (1.1x) + browser-voice fallback, `speak()` resolves true when reading finished
 - `src/learn-view.tsx` — Öğren: start screen, then swipeable card (pointer events + Web Animations API on `[data-card]`, fly-out/slide-in, no prev/next buttons, `touch-pan-y`, only the answer box `[data-scroll]` scrolls, reset to top on card change) + one-time swipe onboarding (localStorage `ehliyetcik.swipeHintSeen`)
 - `src/exam-view.tsx` — Sınav: one question, answer aloud, reveal, self-grade
 - `src/data/questions.json` — all questions; images in `public/signs/`

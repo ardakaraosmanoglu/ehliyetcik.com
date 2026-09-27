@@ -1,4 +1,4 @@
-// Plays pre-generated Piper clips (`make audio`) in order, sped up so they finish within `seconds`.
+// Plays pre-generated Piper clips (`make audio`) in order at a fixed, slightly faster rate.
 // Falls back to the browser voice when a clip is missing.
 let clips: HTMLAudioElement[] = []
 let token = 0
@@ -31,36 +31,28 @@ export function stopAudio() {
   speechSynthesis.cancel()
 }
 
-const duration = (a: HTMLAudioElement) =>
-  new Promise<number>((ok, fail) => {
-    a.onloadedmetadata = () => ok(a.duration)
-    a.onerror = fail
-    a.load()
-  })
+const RATE = 1.1
 
-// ponytail: rate capped at 2.5x — beyond that speech is unintelligible; long answers just overrun the timer
-const rateFor = (total: number, seconds?: number) => (seconds ? Math.min(2.5, Math.max(1, total / (seconds - 0.5))) : 1)
-
-export async function speak(parts: { src: string; text: string }[], seconds?: number) {
+// Resolves true when reading finished, false when it was cut off (next card, pause, stop).
+export async function speak(parts: { src: string; text: string }[]): Promise<boolean> {
   stopAudio()
   const my = token
   clips = parts.map((p) => route(new Audio(p.src)))
   try {
-    const total = (await Promise.all(clips.map(duration))).reduce((a, b) => a + b, 0)
-    const rate = rateFor(total, seconds)
     for (const a of clips) {
-      if (my !== token) return
-      a.playbackRate = rate
+      if (my !== token) return false
+      a.playbackRate = RATE
       await a.play()
-      await new Promise((ok) => (a.onended = ok))
+      await new Promise((ok, fail) => ((a.onended = ok), (a.onerror = fail), (a.onpause = () => a.ended || ok(0))))
     }
+    return my === token
   } catch {
-    if (my !== token) return
-    const text = parts.map((p) => p.text).join('. ')
-    const u = new SpeechSynthesisUtterance(text)
+    if (my !== token) return false
+    const u = new SpeechSynthesisUtterance(parts.map((p) => p.text).join('. '))
     u.lang = 'tr-TR'
     u.volume = volume
-    u.rate = rateFor(text.length / 14, seconds) // ~14 chars/sec at normal rate
-    speechSynthesis.speak(u)
+    u.rate = RATE
+    await new Promise((ok) => ((u.onend = ok), (u.onerror = ok), speechSynthesis.speak(u)))
+    return my === token
   }
 }

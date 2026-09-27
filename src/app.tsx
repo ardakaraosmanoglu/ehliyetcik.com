@@ -48,6 +48,7 @@ export default class App extends Component {
               </div>
             </div>
           </header>
+          {learn.soundMenu && <div class="fixed inset-0 z-20" click={learn.toggleSoundMenu} />}
           {learn.soundMenu && (
             <div class="absolute top-[88px] right-6 z-30 flex w-64 animate-pop items-center gap-3 rounded-full bg-sand-100 p-2 shadow-float">
               <button

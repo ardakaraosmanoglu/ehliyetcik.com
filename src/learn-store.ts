@@ -8,7 +8,8 @@ import { load, store } from './storage'
 class LearnStore extends Store {
   playing = false
   auto = false
-  seconds = 5 // fixed auto-advance time
+  readDone = false // current card finished reading, auto-advance may go
+  run = 0
   index = 0
   hint = false // one-time swipe onboarding
   muted = load('ehliyetcik.muted', false)
@@ -94,7 +95,10 @@ class LearnStore extends Store {
   toggleMute() {
     this.muted = !this.muted
     store('ehliyetcik.muted', this.muted)
-    if (this.muted) stopAudio()
+    if (!this.muted) return
+    stopAudio() // cut reading short, auto-advance goes on
+    this.readDone = true
+    this.schedule()
   }
 
   setVolume(v: number) {
@@ -112,7 +116,7 @@ class LearnStore extends Store {
 
   schedule() {
     clearTimeout(this.timer)
-    if (this.auto && !this.hint) this.timer = window.setTimeout(() => this.next(), this.seconds * 1000)
+    if (this.auto && !this.hint && this.readDone) this.timer = window.setTimeout(() => this.next(), 1000)
   }
 
   show() {
@@ -127,11 +131,20 @@ class LearnStore extends Store {
       q.type === 'image'
         ? [{ src: `/audio/${q.id}.mp3`, text: q.name ?? '' }]
         : [{ src: `/audio/${q.id}-q.mp3`, text: q.q }, { src: `/audio/${q.id}.mp3`, text: q.a }] // question first, then answer
-    if (!this.muted) speak(parts, this.auto ? this.seconds : undefined)
+    const run = ++this.run
+    this.readDone = false
     this.schedule()
+    const text = parts.map((p) => p.text).join(' ')
+    const read = this.muted ? new Promise<boolean>((ok) => setTimeout(() => ok(true), (text.length / 14) * 1000)) : speak(parts) // muted: ~14 chars/sec
+    read.then((ok) => {
+      if (!ok || run !== this.run) return
+      this.readDone = true
+      this.schedule()
+    })
   }
 }
 
 const learn = new LearnStore()
 setVolume(learn.volume)
+window.addEventListener('keydown', (e) => e.key === 'Escape' && learn.soundMenu && learn.toggleSoundMenu())
 export default learn
