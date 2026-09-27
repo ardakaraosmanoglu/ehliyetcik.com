@@ -4,13 +4,11 @@ import all from './data/questions.json'
 import { setVolume, speak, stopAudio } from './audio'
 import { load, store } from './storage'
 
-export const SPEEDS = [3, 5, 8]
-
 // Learn player: goes through items in order, reads each aloud, optional auto-advance in a loop.
 class LearnStore extends Store {
   playing = false
   auto = false
-  seconds = 5
+  seconds = 5 // fixed auto-advance time
   index = 0
   hint = false // one-time swipe onboarding
   muted = load('ehliyetcik.muted', false)
@@ -106,14 +104,9 @@ class LearnStore extends Store {
     if (this.muted && v > 0) this.toggleMute()
   }
 
-  // Changing auto/speed only resets the timer; it doesn't replay the current card.
+  // Toggling auto only resets the timer; it doesn't replay the current card.
   toggleAuto() {
     this.auto = !this.auto
-    this.schedule()
-  }
-
-  setSeconds(s: number) {
-    this.seconds = s
     this.schedule()
   }
 

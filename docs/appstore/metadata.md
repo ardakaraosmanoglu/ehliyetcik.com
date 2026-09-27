@@ -14,7 +14,7 @@ KKTC sürücü belgesi sınavına hazırlan. Trafik işaretlerini ve kuralları 
 ## Açıklama
 Ehliyetçik, KKTC sürücü belgesi sınavına hazırlananlar için bir çalışma uygulamasıdır.
 
-Öğren modunda trafik işaretlerini ve kuralları kart kart çalışırsın. Kartlar sesli okunur, otomatik geçiş hızını 3, 5 ya da 8 saniye olarak seçebilirsin.
+Öğren modunda trafik işaretlerini ve kuralları kart kart çalışırsın. Kartlar sesli okunur, istersen otomatik oynatmayla kendiliğinden geçer.
 
 Sınav modunda soruyu görürsün, cevabı içinden söylersin, sonra cevabı açıp "Bildim" ya da "Bilemedim" dersin. Sonunda puanını görür, bilemediklerini yeniden çalışırsın.
 
@@ -45,7 +45,7 @@ Ehliyetçik is a study app for the North Cyprus (KKTC) driving license exam. No 
 
 - Works fully offline. All 177 signs, 67 rule questions, images and fonts are bundled in the app.
 - Read-aloud audio: each card is spoken (pre-recorded Turkish audio bundled in the app, on-device speech only as a fallback), with mute and a volume slider in the header. Audio also plays when the silent switch is on.
-- Learn mode: swipeable cards with auto-advance (3/5/8 s) and progress saved on the device.
+- Learn mode: swipeable cards with optional auto-advance (5 s) and progress saved on the device.
 - Exam mode: see the question, reveal the answer, grade yourself (Bildim / Bilemedim), see the score, then retry only the wrong answers.
 - No data collection, no ads, no analytics, no network requests.
 

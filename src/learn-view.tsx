@@ -1,12 +1,11 @@
 import { Component } from '@geajs/core'
 import StartScreen from './start-screen'
 import study from './study-store'
-import learn, { SPEEDS } from './learn-store'
+import learn from './learn-store'
 
-const round = 'flex size-[52px] flex-none items-center justify-center rounded-full bg-sand-100 transition-colors hover:bg-brand-100'
-const speed = (on: boolean) => `h-8 rounded-full px-3.5 text-sm font-bold ${on ? 'bg-brand text-white' : 'text-sand-800'}`
 
 // Swipe like Tinder: card follows the finger, release past 70px = next/prev, otherwise springs back.
+// touch-action: pan-y leaves vertical drags to the browser (answer scrolls, pointercancel fires).
 let startX = 0
 let dx = 0
 const card = (e: PointerEvent) => e.currentTarget as HTMLElement
@@ -44,9 +43,18 @@ export default class LearnView extends Component {
             <span class="icon icon-arrow-left size-[18px]" />
             Geri
           </button>
-          <span class="tag bg-brand-100 font-bold text-brand-800">
-            {learn.index + 1} / {study.items.length}
-          </span>
+          <div class="flex items-center gap-2">
+            <span class="tag bg-brand-100 font-bold text-brand-800">
+              {learn.index + 1} / {study.items.length}
+            </span>
+            <button
+              class={`flex size-10 items-center justify-center rounded-full transition-colors ${learn.auto ? 'bg-sage-700 text-white' : 'bg-sand-100 hover:bg-brand-100'}`}
+              aria-label={learn.auto ? 'Duraklat' : 'Otomatik oynat'}
+              click={learn.toggleAuto}
+            >
+              <span class={`icon size-4 ${learn.auto ? 'icon-pause' : 'icon-play'}`} />
+            </button>
+          </div>
         </div>
         <div class="flex gap-[5px]">
           {learn.dots.map((dot) => (
@@ -57,7 +65,7 @@ export default class LearnView extends Component {
           <div class="absolute inset-x-3.5 top-3.5 -bottom-2 rounded-[40px] bg-surface" />
           <div
             data-card
-            class="absolute inset-0 flex cursor-grab touch-none flex-col gap-3.5 rounded-[40px] bg-sand-100 p-7 shadow-card will-change-transform"
+            class="absolute inset-0 flex cursor-grab touch-pan-y flex-col gap-3.5 rounded-[40px] bg-sand-100 p-7 shadow-card will-change-transform"
             pointerdown={down}
             pointermove={move}
             pointerup={up}
@@ -73,7 +81,7 @@ export default class LearnView extends Component {
             <span class={visual ? 'hidden' : 'tag self-start bg-sage-100 text-sage-800'}>Kural {learn.index + 1}</span>
             <h2 class={`font-heading text-[30px] font-extrabold ${visual ? 'leading-[1.05]' : 'mt-2 leading-[1.1] text-pretty'}`}>{visual ? q.name : q.q}</h2>
             <div class={visual ? 'hidden' : 'flex-1'} />
-            <p class={visual ? 'text-base leading-normal text-pretty text-sand-800' : 'rounded-[28px] bg-sage-100 p-5 text-[17px] leading-normal text-pretty text-sage-900'}>{q.a}</p>
+            <p class={visual ? 'text-base leading-normal text-pretty text-sand-800' : 'min-h-0 touch-pan-y overflow-y-auto overscroll-contain rounded-[28px] bg-sage-100 p-5 text-[17px] leading-normal text-pretty text-sage-900'}>{q.a}</p>
           </div>
           {learn.hint && (
             <div class="absolute inset-0 z-20 flex animate-pop flex-col items-start justify-end gap-3.5 rounded-[40px] bg-sand-900/80 px-7 py-8 text-white backdrop-blur-md">
@@ -96,29 +104,6 @@ export default class LearnView extends Component {
               </button>
             </div>
           )}
-        </div>
-        <div class="mt-1.5 flex items-center gap-2.5">
-          <button class={round} aria-label="Önceki" click={learn.prev}>
-            <span class="icon icon-chevron-left size-[22px]" />
-          </button>
-          <button
-            class={`flex h-[52px] flex-1 items-center justify-center gap-2 rounded-full text-base font-bold ${learn.auto ? 'bg-sage-700 text-white' : 'bg-sage-200 text-sage-900'}`}
-            click={learn.toggleAuto}
-          >
-            <span class={`icon size-4 ${learn.auto ? 'icon-pause' : 'icon-play'}`} />
-            {learn.auto ? 'Duraklat' : 'Otomatik oynat'}
-          </button>
-          <button class={round} aria-label="Sonraki" click={learn.next}>
-            <span class="icon icon-chevron-right size-[22px]" />
-          </button>
-        </div>
-        <div class="flex items-center justify-between gap-2.5">
-          <span class="text-sm text-sand-700">Geçiş süresi</span>
-          <div class="flex gap-1 rounded-full bg-sand-100 p-1">
-            <button class={speed(learn.seconds === SPEEDS[0])} click={() => learn.setSeconds(SPEEDS[0])}>{SPEEDS[0]} sn</button>
-            <button class={speed(learn.seconds === SPEEDS[1])} click={() => learn.setSeconds(SPEEDS[1])}>{SPEEDS[1]} sn</button>
-            <button class={speed(learn.seconds === SPEEDS[2])} click={() => learn.setSeconds(SPEEDS[2])}>{SPEEDS[2]} sn</button>
-          </div>
         </div>
       </div>
     )

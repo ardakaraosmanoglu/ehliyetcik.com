@@ -74,7 +74,7 @@ export default class ExamView extends Component {
           <span class={visual ? 'hidden' : 'tag self-start bg-sage-100 text-sage-800'}>Kural sorusu</span>
           <h2 class={`font-heading font-extrabold ${visual ? 'text-[28px] leading-[1.1]' : 'mt-2 text-[30px] leading-[1.1] text-pretty'}`}>{q.q}</h2>
           <div class={visual ? 'hidden' : 'flex-1'} />
-          <div class={open ? 'flex animate-pop flex-col gap-1 rounded-[28px] bg-sage-100 px-5 py-[18px] text-sage-900' : 'hidden'}>
+          <div class={open ? 'flex min-h-0 animate-pop flex-col gap-1 overflow-y-auto overscroll-contain rounded-[28px] bg-sage-100 px-5 py-[18px] text-sage-900' : 'hidden'}>
             <strong class={visual ? 'text-lg' : 'hidden'}>{q.name}</strong>
             <span class="text-base leading-normal text-pretty">{q.a}</span>
           </div>

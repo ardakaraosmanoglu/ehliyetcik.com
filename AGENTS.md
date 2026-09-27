@@ -37,12 +37,12 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 - `src/app.tsx` — root component
 - `src/study-store.ts` — mode (learn/exam), kind (image/text), exam run + results + retry wrong answers
 - `src/storage.ts` — safe localStorage `load`/`store`
-- `src/learn-store.ts` — Öğren player: in-order, loops, auto-advance (3/5/8 sn), plays `public/audio/<id>.mp3` (Piper), falls back to `speechSynthesis`
+- `src/learn-store.ts` — Öğren player: in-order, loops, auto-advance (fixed 5 sn, play/pause icon button next to the counter), plays `public/audio/<id>.mp3` (Piper), falls back to `speechSynthesis`
 - `src/start-screen.tsx` — shared home screen (pick İşaretler/Kurallar + start) for both modes
 - Header progress = cards seen in Öğren (localStorage `ehliyetcik.seen`)
 - Header speaker button opens a sound menu: mute toggle + volume slider; saved in localStorage `ehliyetcik.muted` / `ehliyetcik.volume`. Volume uses a Web Audio GainNode (iOS ignores `audio.volume`)
 - `src/audio.ts` — clip playback + speed-to-fit + browser-voice fallback
-- `src/learn-view.tsx` — Öğren: start screen, then swipeable card (pointer events + Web Animations API on `[data-card]`, fly-out/slide-in, no prev/next buttons) + one-time swipe onboarding (localStorage `ehliyetcik.swipeHintSeen`)
+- `src/learn-view.tsx` — Öğren: start screen, then swipeable card (pointer events + Web Animations API on `[data-card]`, fly-out/slide-in, no prev/next buttons, `touch-pan-y` so the answer box scrolls vertically) + one-time swipe onboarding (localStorage `ehliyetcik.swipeHintSeen`)
 - `src/exam-view.tsx` — Sınav: one question, answer aloud, reveal, self-grade
 - `src/data/questions.json` — all questions; images in `public/signs/`
 
