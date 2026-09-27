@@ -1,5 +1,6 @@
 import { Store } from '@geajs/core'
 import all from './data/questions.json'
+import learn from './learn-store'
 
 export type Mode = 'learn' | 'exam'
 export type Kind = 'image' | 'text'
@@ -35,6 +36,7 @@ class StudyStore extends Store {
   }
 
   restart() {
+    learn.stop()
     this.index = this.known = this.missed = 0
     this.revealed = false
   }

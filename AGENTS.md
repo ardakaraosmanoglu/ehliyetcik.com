@@ -28,7 +28,8 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 - `src/main.ts` — mount
 - `src/app.tsx` — root component
 - `src/study-store.ts` — mode (learn/exam), kind (image/text), exam progress
-- `src/learn-view.tsx` — Öğren: all questions with answers open
+- `src/learn-store.ts` — Öğren player: in-order, loops, auto-advance (3/5/8 sn), reads answer aloud (`speechSynthesis`, tr-TR)
+- `src/learn-view.tsx` — Öğren: start screen, then swipeable card (pointer events, no gesture lib)
 - `src/exam-view.tsx` — Sınav: one question, answer aloud, reveal, self-grade
 - `src/data/questions.json` — all questions; images in `public/signs/`
 
