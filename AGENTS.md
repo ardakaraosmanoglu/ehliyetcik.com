@@ -29,7 +29,7 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 - `make build` — production build to `dist/`
 - `make preview` — build + serve
 - `make audio` — generate Piper TTS mp3s into `public/audio/<id>.mp3` for new questions (runs automatically before `dev`/`build`; delete a file to regenerate)
-- `make ios` — build + `cap sync ios` + open Xcode (Capacitor shell in `ios/`, `capacitor.config.ts`; icon source `resources/icon.svg`)
+- `make ios` — build + `cap sync ios` + open Xcode (Capacitor shell in `ios/`, `capacitor.config.ts`; icon source `resources/icon.png` 1024 opaque, copied to AppIcon + `public/` favicon/touch/PWA icons + `site/`)
 - `make clean`
 
 ## Layout
