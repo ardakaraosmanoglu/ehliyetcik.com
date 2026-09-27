@@ -28,5 +28,6 @@ new App().render(document.getElementById('app')!)
 - No destructuring in `.map()` callback params (`([a, b]) =>` crashes: "m is not defined"). Use `(item) => item.a`.
 - `@geajs/ui` `Button`'s `variant` prop doesn't update reactively inside `.map()`. Use a plain `<button class={...}>` for toggles.
 - Inside `.map()` items: no conditional elements (`{x && <img/>}` / ternary) and no `@geajs/ui` components — bindings shift or crash ("Cannot set properties of null"). Render always, hide via `class`; use plain elements.
+- Function components that read a store at the top (e.g. `if (!store.x) return ...`) don't re-render when it changes. Use a class component with `template()`.
 - `@geajs/ui` components accept `click` (or `onClick`).
 - Tailwind: `src/styles.css` imports `@geajs/ui/style.css` and `@source`s its dist so component classes are generated.

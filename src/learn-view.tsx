@@ -1,10 +1,11 @@
 import { Component } from '@geajs/core'
 import { Button } from '@geajs/ui'
+import StartScreen from './start-screen'
 import study from './study-store'
 import learn, { SPEEDS } from './learn-store'
 
 const chip = (active: boolean) =>
-  `rounded-full px-3 py-1 text-sm font-medium ${active ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`
+  `rounded-full px-3 py-1 text-sm font-medium ${active ? 'bg-amber-400 text-black' : 'bg-muted text-muted-foreground'}`
 
 // Swipe like Tinder: card follows the finger, release past 80px = next/prev.
 let startX = 0
@@ -24,26 +25,19 @@ const up = () => {
 export default class LearnView extends Component {
   template() {
     if (!learn.playing)
-      return (
-        <div class="flex flex-1 flex-col justify-center gap-6 text-center">
-          <p class="text-5xl">{study.kind === 'image' ? '🚸' : '📘'}</p>
-          <div class="grid gap-1">
-            <p class="text-2xl font-bold">{study.items.length} {study.kind === 'image' ? 'görselli' : 'metinsel'} soru</p>
-            <p class="text-muted-foreground">Sırayla gösterilir, cevap sesli okunur. Kaydırarak geçebilirsin.</p>
-          </div>
-          <Button size="lg" class="h-12 w-full text-base" click={learn.start}>Başla</Button>
-        </div>
-      )
+      return <StartScreen title="Öğren 📖" hint="Levhalar sırayla gelir, adı sesli okunur." start={learn.start} />
 
     const q = learn.current
     return (
       <div class="flex flex-1 flex-col gap-4">
         <div class="flex items-center justify-between text-sm text-muted-foreground">
-          <button class="font-medium" click={learn.stop}>✕ Bitir</button>
-          <span>{learn.index + 1} / {study.items.length}</span>
+          <button class="flex items-center gap-1 rounded-full bg-muted px-3 py-1.5 font-semibold text-foreground transition-transform active:scale-95" click={learn.stop}>
+            ← Geri
+          </button>
+          <span class="rounded-full bg-amber-100 px-3 py-1.5 font-bold text-amber-900">{learn.index + 1} / {study.items.length}</span>
         </div>
         <div
-          class="flex flex-1 touch-pan-y select-none flex-col justify-center gap-5 rounded-2xl border bg-card p-6 shadow-sm transition-transform duration-75"
+          class="flex flex-1 touch-pan-y select-none flex-col justify-center gap-5 rounded-3xl border bg-card p-6 shadow-xl shadow-black/5 transition-transform duration-75"
           style={`transform: translateX(${learn.dx}px) rotate(${learn.dx / 25}deg)`}
           pointerdown={down}
           pointermove={move}
@@ -64,7 +58,7 @@ export default class LearnView extends Component {
         </div>
         <div class="grid grid-cols-2 gap-3">
           <Button variant="outline" size="lg" class="h-12 text-base" click={learn.prev}>← Önceki</Button>
-          <Button size="lg" class="h-12 text-base" click={learn.next}>Sonraki →</Button>
+          <Button size="lg" class="h-12 bg-gradient-to-r from-amber-400 to-orange-500 text-base font-bold text-white" click={learn.next}>Sonraki →</Button>
         </div>
       </div>
     )

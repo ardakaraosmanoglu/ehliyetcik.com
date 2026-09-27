@@ -14,7 +14,7 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 - Desktop is secondary: the same phone-width column (`max-w-md`), centered as a card.
 
 ## Audio (TTS)
-- Every question needs its own `public/audio/<id>.mp3` (Piper, `make audio`). Missing files fall back to the browser voice.
+- Every question needs `public/audio/<id>.mp3` (answer); text questions also `<id>-q.mp3` (question, read first). Piper, `make audio`. `src/audio.ts` plays clips in order and speeds them up (max 2.5x) to fit the auto-advance time. Missing files fall back to the browser voice.
 - **Deferred:** bulk audio generation waits until the booklet content is fully entered. When adding questions, don't generate audio unless asked. Later TODO: make `dev`/`build` depend on `audio` so it never gets forgotten.
 
 ## Stack
@@ -34,6 +34,8 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 - `src/app.tsx` — root component
 - `src/study-store.ts` — mode (learn/exam), kind (image/text), exam progress
 - `src/learn-store.ts` — Öğren player: in-order, loops, auto-advance (3/5/8 sn), plays `public/audio/<id>.mp3` (Piper), falls back to `speechSynthesis`
+- `src/start-screen.tsx` — shared start screen (pick Görselli/Metinsel + Başla) for both modes
+- `src/audio.ts` — clip playback + speed-to-fit + browser-voice fallback
 - `src/learn-view.tsx` — Öğren: start screen, then swipeable card (pointer events, no gesture lib)
 - `src/exam-view.tsx` — Sınav: one question, answer aloud, reveal, self-grade
 - `src/data/questions.json` — all questions; images in `public/signs/`

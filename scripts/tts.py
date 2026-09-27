@@ -1,4 +1,4 @@
-# Generates public/audio/<id>.mp3 for every question answer with Piper TTS (offline, Turkish).
+# Generates public/audio/<id>.mp3 (answer) and <id>-q.mp3 (question, text type only) with Piper TTS (offline, Turkish).
 # Skips files that already exist; delete one to regenerate. Run via `make audio`.
 import json, pathlib, subprocess, urllib.request, wave
 from piper import PiperVoice
@@ -13,12 +13,16 @@ for ext in (".onnx", ".onnx.json"):
 
 voice = PiperVoice.load(str(cache / (VOICE + ".onnx")))
 out = pathlib.Path("public/audio"); out.mkdir(parents=True, exist_ok=True)
-for q in json.load(open("src/data/questions.json")):
-    mp3 = out / f"{q['id']}.mp3"
+def render(text, mp3):
     if mp3.exists():
-        continue
+        return
     wav = cache / "tmp.wav"
     with wave.open(str(wav), "wb") as w:
-        voice.synthesize_wav(q["a"], w)
+        voice.synthesize_wav(text, w)
     subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", wav, "-ac", "1", "-b:a", "48k", mp3], check=True)
     print("✓", mp3)
+
+for q in json.load(open("src/data/questions.json")):
+    render(q["a"], out / f"{q['id']}.mp3")
+    if q["type"] == "text":  # text questions: question is read before the answer
+        render(q["q"], out / f"{q['id']}-q.mp3")

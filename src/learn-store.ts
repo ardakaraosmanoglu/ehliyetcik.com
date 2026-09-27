@@ -1,5 +1,6 @@
 import { Store } from '@geajs/core'
 import study from './study-store'
+import { speak, stopAudio } from './audio'
 
 export const SPEEDS = [3, 5, 8]
 
@@ -55,28 +56,13 @@ class LearnStore extends Store {
   show() {
     this.dx = 0
     clearTimeout(this.timer)
-    speak(this.current.id, this.current.a)
+    const q = this.current
+    const parts = [{ src: `/audio/${q.id}.mp3`, text: q.a }]
+    if (q.type === 'text') parts.unshift({ src: `/audio/${q.id}-q.mp3`, text: q.q }) // question first, then answer
+    speak(parts, this.auto ? this.seconds : undefined)
     if (this.auto) this.timer = window.setTimeout(() => this.next(), this.seconds * 1000)
   }
 }
 
-// Pre-generated Piper audio (`make audio`); falls back to the browser voice if the file is missing.
-const audio = new Audio()
-
-function stopAudio() {
-  audio.pause()
-  speechSynthesis.cancel()
-}
-
-function speak(id: number, text: string) {
-  stopAudio()
-  audio.src = `/audio/${id}.mp3`
-  audio.onerror = () => {
-    const u = new SpeechSynthesisUtterance(text)
-    u.lang = 'tr-TR'
-    speechSynthesis.speak(u)
-  }
-  audio.play().catch(() => {})
-}
 
 export default new LearnStore()
