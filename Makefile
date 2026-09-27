@@ -1,4 +1,4 @@
-.PHONY: install dev build preview clean
+.PHONY: install dev build preview clean audio
 
 install: node_modules
 node_modules: package.json
@@ -16,3 +16,7 @@ preview: build
 
 clean:
 	rm -rf node_modules dist
+
+# Generate Piper TTS mp3s for new questions (needs uv + ffmpeg)
+audio:
+	uv run --with piper-tts python scripts/tts.py

@@ -25,7 +25,7 @@ class LearnStore extends Store {
   stop() {
     this.playing = false
     clearTimeout(this.timer)
-    speechSynthesis.cancel()
+    stopAudio()
   }
 
   go(step: number) {
@@ -55,16 +55,28 @@ class LearnStore extends Store {
   show() {
     this.dx = 0
     clearTimeout(this.timer)
-    speak(this.current.a)
+    speak(this.current.id, this.current.a)
     if (this.auto) this.timer = window.setTimeout(() => this.next(), this.seconds * 1000)
   }
 }
 
-function speak(text: string) {
+// Pre-generated Piper audio (`make audio`); falls back to the browser voice if the file is missing.
+const audio = new Audio()
+
+function stopAudio() {
+  audio.pause()
   speechSynthesis.cancel()
-  const u = new SpeechSynthesisUtterance(text)
-  u.lang = 'tr-TR'
-  speechSynthesis.speak(u)
+}
+
+function speak(id: number, text: string) {
+  stopAudio()
+  audio.src = `/audio/${id}.mp3`
+  audio.onerror = () => {
+    const u = new SpeechSynthesisUtterance(text)
+    u.lang = 'tr-TR'
+    speechSynthesis.speak(u)
+  }
+  audio.play().catch(() => {})
 }
 
 export default new LearnStore()

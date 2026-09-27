@@ -6,3 +6,4 @@
 - **@geajs/ui + Tailwind v4** instead of shadcn: shadcn is React-only; @geajs/ui is the Gea equivalent (same tokens/look).
 - **Mobile-first PWA-style shell.** Installable via `manifest.json` (standalone). No service worker yet — add if offline is needed.
 - **Swipe via native pointer events**, not `@geajs/mobile`: ~15 lines, gives Tinder-style drag feedback, no extra dependency. **TTS via Web Speech API** (`speechSynthesis`), free and offline on phones.
+- **Piper TTS, pre-generated at dev time** (`make audio`), not in the browser: natural voice, zero runtime cost, ~25 KB mp3 per answer. Only Turkish voice is `tr_TR-dfki-medium`, **CC BY-NC-SA 4.0** — fine for a free app with attribution; commercial use needs another voice.
