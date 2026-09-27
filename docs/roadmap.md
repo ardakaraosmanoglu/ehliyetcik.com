@@ -1,8 +1,10 @@
 # Roadmap
 
-- [x] Skeleton: flashcard for signs
+- [x] Skeleton
+- [x] Öğren mode (all Q&A open) + Sınav mode (answer aloud, reveal, self-grade)
+- [x] Image vs text question split
 - [ ] Enter real booklet content into `src/data/`
-- [ ] Sign images
+- [ ] Real sign images
 - [ ] Category filter
-- [ ] Multiple-choice quiz mode
+- [ ] Shuffle in exam mode
 - [ ] Wrong-answer review (localStorage)

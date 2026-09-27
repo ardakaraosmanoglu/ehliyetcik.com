@@ -9,11 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@geajs/core": "^1.0.0"
+    "@geajs/core": "^1.0.0",
+    "@geajs/ui": "^0.2.10"
   },
   "devDependencies": {
+    "@geajs/vite-plugin": "^1.0.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",
-    "vite": "^8.0.0",
-    "@geajs/vite-plugin": "^1.0.0"
+    "vite": "^8.0.0"
   }
 }

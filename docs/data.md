@@ -1,12 +1,14 @@
 # Data format
 
-`src/data/signs.json` — array of:
+`src/data/questions.json` — array of:
 
 | field | type | note |
 |---|---|---|
 | id | number | unique |
-| category | string | booklet section (Tehlike Uyarı, Trafik Tanzim, Bilgi…) |
-| name | string | sign name |
-| desc | string | meaning / what driver must do |
+| type | `"image"` \| `"text"` | image = picture question (sign, road); text = plain question |
+| category | string | booklet section (Levhalar, Yol çizgileri, Kurallar…) |
+| image | string? | only for `image`, path under `public/signs/` (SVG/PNG/WebP) |
+| q | string | question |
+| a | string | answer |
 
-Planned: `image` (path under `public/signs/`), `questions.json` for multiple-choice.
+Current images are placeholder SVGs — replace with real ones from the booklet.

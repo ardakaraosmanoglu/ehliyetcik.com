@@ -1,5 +1,0 @@
-[
-  { "id": 1, "category": "Tehlike Uyarı", "name": "Dur", "desc": "Durmadan geçmek yasaktır. Kavşağa girmeden önce tam dur." },
-  { "id": 2, "category": "Tehlike Uyarı", "name": "Yol ver", "desc": "Anayoldaki araçlara yol ver." },
-  { "id": 3, "category": "Trafik Tanzim", "name": "Taşıt trafiğine kapalı yol", "desc": "Her iki yönden taşıt girişi yasaktır." }
-]

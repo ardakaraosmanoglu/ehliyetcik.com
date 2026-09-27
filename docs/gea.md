@@ -23,3 +23,9 @@ function Note({ n }: { n: number }) { return <p>{n}</p> }
 
 new App().render(document.getElementById('app')!)
 ```
+
+## Gotchas (learned the hard way)
+- No destructuring in `.map()` callback params (`([a, b]) =>` crashes: "m is not defined"). Use `(item) => item.a`.
+- `@geajs/ui` `Button`'s `variant` prop doesn't update reactively inside `.map()`. Use a plain `<button class={...}>` for toggles.
+- `@geajs/ui` components accept `click` (or `onClick`).
+- Tailwind: `src/styles.css` imports `@geajs/ui/style.css` and `@source`s its dist so component classes are generated.
