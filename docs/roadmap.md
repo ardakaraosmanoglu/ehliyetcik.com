@@ -9,3 +9,4 @@
 - [ ] Category filter
 - [ ] Shuffle in exam mode
 - [ ] Wrong-answer review (localStorage)
+- [ ] Generate audio for all questions (`make audio`) once content is complete; hook `audio` into `dev`/`build`

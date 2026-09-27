@@ -13,6 +13,10 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 - **Mobile-first**, feels like a native app: sticky header, bottom tab bar (Öğren/Sınav), segmented control (Görselli/Metinsel), primary actions at the bottom (thumb zone), safe-area insets, min 44px tap targets.
 - Desktop is secondary: the same phone-width column (`max-w-md`), centered as a card.
 
+## Audio (TTS)
+- Every question needs its own `public/audio/<id>.mp3` (Piper, `make audio`). Missing files fall back to the browser voice.
+- **Deferred:** bulk audio generation waits until the booklet content is fully entered. When adding questions, don't generate audio unless asked. Later TODO: make `dev`/`build` depend on `audio` so it never gets forgotten.
+
 ## Stack
 - [Gea](https://geajs.com) (`@geajs/core`) + Vite + TypeScript. Class components with `template()` JSX, `Store` classes for state.
 - UI: [`@geajs/ui`](https://www.npmjs.com/package/@geajs/ui) (shadcn-like, Tailwind v4 via `@tailwindcss/vite`). Prefer its components (Button, Card, Badge, Progress…).
