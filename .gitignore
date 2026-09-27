@@ -4,3 +4,4 @@ dist
 .cache
 ios/App/Pods
 ios/App/App/public
+/.vi3ecode
