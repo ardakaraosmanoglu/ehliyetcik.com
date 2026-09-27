@@ -116,6 +116,7 @@ class LearnStore extends Store {
   }
 
   show() {
+    document.querySelectorAll('[data-scroll]').forEach((e) => (e.scrollTop = 0))
     const q = this.current
     if (!this.seen.includes(q.id)) {
       this.seen = [...this.seen, q.id]

@@ -76,3 +76,7 @@ progress::-moz-progress-bar { background: var(--fill); border-radius: 999px; }
 .hidden-doc *::after {
   animation: none !important;
 }
+
+/* Scroll boxes inside cards: no grey scrollbar */
+[data-scroll] { scrollbar-width: none; }
+[data-scroll]::-webkit-scrollbar { display: none; }

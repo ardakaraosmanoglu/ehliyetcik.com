@@ -60,6 +60,7 @@ class StudyStore extends Store {
     this.pool = pool
     this.index = 0
     this.revealed = false
+    document.querySelectorAll('[data-scroll]').forEach((e) => (e.scrollTop = 0))
     this.results = []
     this.started = true
   }
@@ -84,6 +85,7 @@ class StudyStore extends Store {
     this.results = [...this.results, { ok, q: this.current }]
     this.index++
     this.revealed = false
+    document.querySelectorAll('[data-scroll]').forEach((e) => (e.scrollTop = 0))
     if (this.done) this.lastScore = `${this.correct} / ${this.results.length}`
   }
 }

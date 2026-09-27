@@ -63,8 +63,8 @@ export default class ExamView extends Component {
           max={study.items.length}
           value={study.index + (open ? 1 : 0)}
         />
-        <div class={`flex min-h-0 flex-1 touch-pan-y flex-col gap-3 overflow-y-auto overscroll-contain rounded-[40px] bg-sand-100 shadow-card ${open ? 'px-[22px] py-5' : 'p-7'}`}>
-          <div class={visual ? 'flex min-h-36 flex-1 items-center justify-center' : 'hidden'}>
+        <div class={`flex min-h-0 flex-1 flex-col gap-3 overflow-hidden rounded-[40px] bg-sand-100 shadow-card ${open ? 'px-[22px] py-5' : 'p-7'}`}>
+          <div class={visual ? 'flex min-h-0 flex-1 items-center justify-center' : 'hidden'}>
             <div class={q.images ? 'flex w-full flex-wrap items-center justify-center gap-2 rounded-[32px] bg-brand-200 p-3' : `flex items-center justify-center rounded-full bg-brand-200 transition-all duration-350 ${open ? 'size-[130px]' : 'size-[230px]'}`}>
               {(q.images || [q.image || '']).map((src) => (
                   <img src={src} alt="" class={`object-contain drop-shadow-[0_4px_8px_rgba(46,43,37,.18)] transition-all duration-350 ${q.images ? (open ? 'size-16' : 'size-[120px]') : open ? 'size-24' : 'size-[170px]'}`} />
@@ -72,9 +72,9 @@ export default class ExamView extends Component {
             </div>
           </div>
           <span class={visual ? 'hidden' : 'tag self-start bg-sage-100 text-sage-800'}>Kural sorusu</span>
-          <h2 class={`shrink-0 font-heading font-extrabold ${visual ? 'text-[28px] leading-[1.1]' : 'mt-2 text-[30px] leading-[1.1] text-pretty'}`}>{q.q}</h2>
+          <h2 class={`font-heading font-extrabold ${visual ? 'text-[27px] leading-[1.1]' : `mt-2 leading-[1.1] text-pretty ${q.q.length > 110 ? 'text-2xl' : 'text-[29px]'}`}`}>{q.q}</h2>
           <div class={visual ? 'hidden' : 'flex-1'} />
-          <div class={open ? 'flex shrink-0 animate-pop flex-col gap-1 rounded-[28px] bg-sage-100 px-5 py-[18px] text-sage-900' : 'hidden'}>
+          <div data-scroll class={open ? 'flex min-h-24 animate-pop flex-col gap-1 overflow-y-auto overscroll-contain rounded-[28px] bg-sage-100 px-5 py-[18px] text-sage-900' : 'hidden'}>
             <strong class={visual ? 'text-lg' : 'hidden'}>{q.name}</strong>
             <span class="text-base leading-normal text-pretty">{q.a}</span>
           </div>
