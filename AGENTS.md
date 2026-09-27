@@ -17,7 +17,7 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 
 ## Audio (TTS)
 - Every question needs `public/audio/<id>.mp3` (answer); text questions also `<id>-q.mp3` (question, read first). Piper, `make audio`. `src/audio.ts` plays clips in order and speeds them up (max 2.5x) to fit the auto-advance time. Missing files fall back to the browser voice.
-- **Deferred:** bulk audio generation waits until the booklet content is fully entered. When adding questions, don't generate audio unless asked. Later TODO: make `dev`/`build` depend on `audio` so it never gets forgotten.
+- `make dev`/`make build` run `make audio` first, so new questions get clips automatically (existing files are skipped).
 
 ## Stack
 - [Gea](https://geajs.com) (`@geajs/core`) + Vite + TypeScript. Class components with `template()` JSX, `Store` classes for state.
@@ -28,7 +28,7 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 - `make dev` — dev server
 - `make build` — production build to `dist/`
 - `make preview` — build + serve
-- `make audio` — generate Piper TTS mp3s into `public/audio/<id>.mp3` for new questions (run after editing questions; delete a file to regenerate)
+- `make audio` — generate Piper TTS mp3s into `public/audio/<id>.mp3` for new questions (runs automatically before `dev`/`build`; delete a file to regenerate)
 - `make ios` — build + `cap sync ios` + open Xcode (Capacitor shell in `ios/`, `capacitor.config.ts`; icon source `resources/icon.svg`)
 - `make clean`
 
