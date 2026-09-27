@@ -29,7 +29,7 @@ Sınav modunda soruyu görürsün, cevabı içinden söylersin, sonra cevabı a�
 - İlerlemen cihazında saklanır, hesap gerekmez
 - Reklam yok, veri toplanmaz
 
-Bu uygulama resmî değildir. Herhangi bir devlet kurumuyla bağlantısı yoktur. İçerik kaynağı: KKTC Sürücü Kursu Müfredatı kitapçığı.
+Bu uygulama resmî değildir. Herhangi bir devlet kurumuyla bağlantısı yoktur. İçerik, KKTC Sürücü Kursu Müfredatı kitapçığındaki kamuya açık trafik kurallarına ve işaretlerine dayanır. Güncel ve resmî bilgi için ilgili kuruma başvurun.
 
 ## Anahtar kelimeler (100)
 ehliyet,KKTC,sürücü,sınav,trafik,işaret,levha,kural,Kıbrıs,direksiyon,kurs,test
@@ -48,6 +48,8 @@ Ehliyetçik is a study app for the North Cyprus (KKTC) driving license exam. No 
 - Learn mode: swipeable cards with auto-advance (3/5/8 s) and progress saved on the device.
 - Exam mode: see the question, reveal the answer, grade yourself (Bildim / Bilemedim), see the score, then retry only the wrong answers.
 - No data collection, no ads, no analytics, no network requests.
+
+Unofficial study aid. Content is based on the publicly distributed KKTC driving-course booklet (KKTC Sürücü Kursu Müfredatı). The app is not affiliated with any government agency and says so on the About screen, the store description and the support pages. Users are told to check the relevant authority for current, official information.
 
 The app is not official and is not affiliated with any government body. This is stated in the in-app About screen (info button in the header). Content source: the KKTC driving course curriculum booklet, used as public educational material.
 
