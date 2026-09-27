@@ -6,23 +6,29 @@ import learn, { SPEEDS } from './learn-store'
 const chip = (active: boolean) =>
   `rounded-full px-3 py-1 text-sm font-medium ${active ? 'bg-amber-400 text-black' : 'bg-muted text-muted-foreground'}`
 
-// Swipe like Tinder: card follows the finger, release past 80px = next/prev.
+// Swipe like Tinder: card follows the finger, release past 80px = next/prev, otherwise springs back.
 let startX = 0
+let dx = 0
+const card = (e: PointerEvent) => e.currentTarget as HTMLElement
 const down = (e: PointerEvent) => {
   startX = e.clientX
-  learn.animating = false
-  ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
+  dx = 0
+  card(e).setPointerCapture(e.pointerId)
 }
 const move = (e: PointerEvent) => {
-  if (e.buttons || e.pointerType === 'touch') learn.dx = e.clientX - startX
+  if (!card(e).hasPointerCapture(e.pointerId)) return
+  dx = e.clientX - startX
+  card(e).style.transform = `translateX(${dx}px) rotate(${dx / 20}deg)`
 }
-const up = () => {
-  if (learn.dx < -80) learn.next()
-  else if (learn.dx > 80) learn.prev()
-  else {
-    learn.animating = true
-    learn.dx = 0
+const up = (e: PointerEvent) => {
+  const el = card(e)
+  if (dx < -80) learn.next()
+  else if (dx > 80) learn.prev()
+  else if (dx) {
+    el.animate([{ transform: el.style.transform }, { transform: 'none' }], { duration: 300, easing: 'cubic-bezier(.2,.9,.3,1.3)' })
+    el.style.transform = ''
   }
+  dx = 0
 }
 
 export default class LearnView extends Component {
@@ -40,8 +46,8 @@ export default class LearnView extends Component {
           <span class="rounded-full bg-amber-100 px-3 py-1.5 font-bold text-amber-900">{learn.index + 1} / {study.items.length}</span>
         </div>
         <div
-          class={`flex flex-1 touch-pan-y select-none flex-col justify-center gap-5 rounded-3xl border bg-card p-6 shadow-xl shadow-black/5 ${learn.animating ? 'transition-transform duration-200 ease-out' : ''}`}
-          style={`transform: translateX(${learn.dx}px) rotate(${learn.dx / 25}deg)`}
+          data-card
+          class="flex flex-1 touch-pan-y select-none flex-col justify-center gap-5 rounded-3xl border bg-card p-6 shadow-xl shadow-black/5 will-change-transform"
           pointerdown={down}
           pointermove={move}
           pointerup={up}
