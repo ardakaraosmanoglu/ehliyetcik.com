@@ -19,7 +19,7 @@ export default class StartScreen extends Component {
               <span class="icon icon-check size-4" />
             </span>
             <div class="flex size-[104px] items-center justify-center rounded-full bg-brand-200">
-              <img src="/signs/dur.svg" alt="" class="size-[72px] drop-shadow-[0_4px_8px_rgba(46,43,37,.18)]" />
+              <img src="/signs/p8_02.webp" alt="" class="size-[72px] drop-shadow-[0_4px_8px_rgba(46,43,37,.18)]" />
             </div>
             <div class="flex flex-col items-start gap-1.5">
               <span class="font-heading text-[26px] leading-none font-extrabold">İşaretler</span>
