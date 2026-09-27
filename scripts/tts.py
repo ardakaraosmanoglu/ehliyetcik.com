@@ -1,4 +1,4 @@
-# Generates public/audio/<id>.mp3 (answer) and <id>-q.mp3 (question, text type only) with Piper TTS (offline, Turkish).
+# Generates public/audio/<id>.mp3 (sign name / text answer) and <id>-q.mp3 (text question) with Piper TTS (offline, Turkish).
 # Skips files that already exist; delete one to regenerate. Run via `make audio`.
 import json, pathlib, subprocess, urllib.request, wave
 from piper import PiperVoice
@@ -23,6 +23,8 @@ def render(text, mp3):
     print("✓", mp3)
 
 for q in json.load(open("src/data/questions.json")):
-    render(q["a"], out / f"{q['id']}.mp3")
-    if q["type"] == "text":  # text questions: question is read before the answer
+    if q["type"] == "image":  # sign: its name is read
+        render(q["name"], out / f"{q['id']}.mp3")
+    else:  # text: question is read before the answer
         render(q["q"], out / f"{q['id']}-q.mp3")
+        render(q["a"], out / f"{q['id']}.mp3")

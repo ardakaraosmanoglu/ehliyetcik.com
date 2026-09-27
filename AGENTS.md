@@ -10,9 +10,10 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 - **Auto-commit:** commit after every completed step without asking (this project only). Verify (`make build` + quick browser check) before committing.
 
 ## Design
-- **Mobile-first**, feels like a native app: sticky header, bottom tab bar (Öğren/Sınav), segmented control (Görselli/Metinsel), primary actions at the bottom (thumb zone), safe-area insets, min 44px tap targets.
-- Clean/professional chrome: no emojis in header/nav, line icons (`.icon-*` CSS masks), amber-500 as the single accent.
-- Desktop is secondary: the same phone-width column (`max-w-md`), centered as a card.
+- Source of truth: [docs/design/Ehliyetcik.dc.html](docs/design/Ehliyetcik.dc.html) (Claude Design handoff, "Organic" system; tokens in [docs/design/tokens.css](docs/design/tokens.css)). Match it pixel-for-pixel.
+- Tokens are Tailwind theme vars in `src/styles.css`: `cream`, `surface`, `ink`, `sand-*` (neutral), `brand-*` (accent #c67139), `sage-*` (accent-2 #7a8a5e). Fonts: Baloo 2 (`font-heading`) + Figtree.
+- Mobile-first: full screen on phones; desktop shows the same 390×820 phone frame. Primary actions in the thumb zone, safe-area insets.
+- Icons: Lucide paths as CSS masks (`.icon .icon-*` in `src/styles.css`), no emojis in UI chrome.
 
 ## Audio (TTS)
 - Every question needs `public/audio/<id>.mp3` (answer); text questions also `<id>-q.mp3` (question, read first). Piper, `make audio`. `src/audio.ts` plays clips in order and speeds them up (max 2.5x) to fit the auto-advance time. Missing files fall back to the browser voice.
@@ -20,7 +21,7 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 
 ## Stack
 - [Gea](https://geajs.com) (`@geajs/core`) + Vite + TypeScript. Class components with `template()` JSX, `Store` classes for state.
-- UI: [`@geajs/ui`](https://www.npmjs.com/package/@geajs/ui) (shadcn-like, Tailwind v4 via `@tailwindcss/vite`). Prefer its components (Button, Card, Badge, Progress…).
+- UI: plain elements + Tailwind v4 (`@tailwindcss/vite`). `@geajs/ui` was removed — the handoff design uses its own components.
 - No backend, no DB. Static content lives in `src/data/*.json`. See [docs/decisions.md](docs/decisions.md).
 
 ## Commands (Makefile)
@@ -33,9 +34,11 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 ## Layout
 - `src/main.ts` — mount
 - `src/app.tsx` — root component
-- `src/study-store.ts` — mode (learn/exam), kind (image/text), exam progress
+- `src/study-store.ts` — mode (learn/exam), kind (image/text), exam run + results + retry wrong answers
+- `src/storage.ts` — safe localStorage `load`/`store`
 - `src/learn-store.ts` — Öğren player: in-order, loops, auto-advance (3/5/8 sn), plays `public/audio/<id>.mp3` (Piper), falls back to `speechSynthesis`
-- `src/start-screen.tsx` — shared start screen (pick Görselli/Metinsel + Başla) for both modes
+- `src/start-screen.tsx` — shared home screen (pick Görselli/Metinsel + start) for both modes
+- Header progress = cards seen in Öğren (localStorage `ehliyetcik.seen`)
 - Header speaker button opens a sound menu: mute toggle + volume slider; saved in localStorage `ehliyetcik.muted` / `ehliyetcik.volume`. Volume uses a Web Audio GainNode (iOS ignores `audio.volume`)
 - `src/audio.ts` — clip playback + speed-to-fit + browser-voice fallback
 - `src/learn-view.tsx` — Öğren: start screen, then swipeable card (pointer events + Web Animations API on `[data-card]`, fly-out/slide-in, no prev/next buttons) + one-time swipe onboarding (localStorage `ehliyetcik.swipeHintSeen`)

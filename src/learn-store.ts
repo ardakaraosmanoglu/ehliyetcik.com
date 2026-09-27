@@ -1,90 +1,76 @@
 import { Store } from '@geajs/core'
 import study from './study-store'
+import all from './data/questions.json'
 import { setVolume, speak, stopAudio } from './audio'
+import { load, store } from './storage'
 
 export const SPEEDS = [3, 5, 8]
-const HINT_KEY = 'ehliyetcik.swipeHintSeen'
 
-const MUTE_KEY = 'ehliyetcik.muted'
-const VOLUME_KEY = 'ehliyetcik.volume'
-
-const saved = (key: string) => {
-  try {
-    return localStorage.getItem(key) === '1'
-  } catch {
-    return false
-  }
-}
-
-const save = (key: string, value: boolean | number) => {
-  try {
-    localStorage.setItem(key, typeof value === 'number' ? String(value) : value ? '1' : '0')
-  } catch {}
-}
-
-const savedVolume = () => {
-  try {
-    const v = parseFloat(localStorage.getItem(VOLUME_KEY) ?? '')
-    return v >= 0 && v <= 1 ? v : 1
-  } catch {
-    return 1
-  }
-}
-
-// Learn player: goes through items in order, reads each answer aloud, auto-advances in a loop.
+// Learn player: goes through items in order, reads each aloud, optional auto-advance in a loop.
 class LearnStore extends Store {
   playing = false
-  auto = true
+  auto = false
   seconds = 5
   index = 0
   hint = false // one-time swipe onboarding
-  muted = saved(MUTE_KEY)
-  volume = savedVolume()
+  muted = load('ehliyetcik.muted', false)
+  volume = load('ehliyetcik.volume', 1)
   soundMenu = false
+  seen: number[] = load('ehliyetcik.seen', [])
   timer = 0
 
   get current() {
     return study.items[this.index]
   }
 
+  get total() {
+    return all.length
+  }
+
+  // One segment per card for the progress dots: done / current / upcoming.
+  get dots() {
+    return study.items.map((q, i) => ({
+      id: q.id,
+      cls: `h-1.5 flex-1 rounded-full transition-colors duration-300 ${i < this.index ? 'bg-brand-300' : i === this.index ? 'bg-brand' : 'bg-sand-100'}`,
+    }))
+  }
+
   start() {
     this.index = 0
     this.playing = true
-    this.hint = !saved(HINT_KEY)
+    this.hint = !load('ehliyetcik.swipeHintSeen', false)
     this.show()
   }
 
   stop() {
     this.playing = false
+    this.auto = false
     clearTimeout(this.timer)
     stopAudio()
   }
 
   closeHint() {
     this.hint = false
-    save(HINT_KEY, true)
-    this.schedule()
+    store('ehliyetcik.swipeHintSeen', true)
+    this.show()
   }
 
   // Card flies out to one side, next one slides in from the other (Web Animations API — Gea doesn't bind reactive `style`).
   async slide(step: number) {
     clearTimeout(this.timer)
     const el = document.querySelector<HTMLElement>('[data-card]')
-    const w = (step > 0 ? -1 : 1) * window.innerWidth
+    const w = step > 0 ? -440 : 440
     if (el)
-      await el.animate([{ transform: el.style.transform || 'none' }, { transform: `translateX(${w}px) rotate(${w / 20}deg)`, opacity: 0 }], {
+      await el.animate([{ transform: el.style.transform || 'none' }, { transform: `translateX(${w}px) rotate(${w / 22}deg)`, opacity: 0 }], {
         duration: 220,
-        easing: 'cubic-bezier(.4,0,1,1)',
+        easing: 'ease',
       }).finished
     const n = study.items.length
     this.index = (this.index + step + n) % n
     this.show()
     if (!el) return
     el.style.transform = ''
-    el.animate([{ transform: `translateX(${-w / 3}px) scale(.9)`, opacity: 0 }, { transform: 'none', opacity: 1 }], {
-      duration: 320,
-      easing: 'cubic-bezier(.2,.9,.3,1.2)',
-    })
+    el.animate([{ transform: `translateX(${-w / 6}px)`, opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 220, easing: 'ease' })
   }
 
   next() {
@@ -95,20 +81,20 @@ class LearnStore extends Store {
     this.slide(-1)
   }
 
-  toggleMute() {
-    this.muted = !this.muted
-    save(MUTE_KEY, this.muted)
-    if (this.muted) stopAudio()
-  }
-
   toggleSoundMenu() {
     this.soundMenu = !this.soundMenu
+  }
+
+  toggleMute() {
+    this.muted = !this.muted
+    store('ehliyetcik.muted', this.muted)
+    if (this.muted) stopAudio()
   }
 
   setVolume(v: number) {
     this.volume = v
     setVolume(v)
-    save(VOLUME_KEY, v)
+    store('ehliyetcik.volume', v)
     if (this.muted && v > 0) this.toggleMute()
   }
 
@@ -130,8 +116,15 @@ class LearnStore extends Store {
 
   show() {
     const q = this.current
-    const parts = [{ src: `/audio/${q.id}.mp3`, text: q.a }]
-    if (q.type === 'text') parts.unshift({ src: `/audio/${q.id}-q.mp3`, text: q.q }) // question first, then answer
+    if (!this.seen.includes(q.id)) {
+      this.seen = [...this.seen, q.id]
+      store('ehliyetcik.seen', this.seen)
+    }
+    if (this.hint) return // wait for onboarding to close
+    const parts =
+      q.type === 'image'
+        ? [{ src: `/audio/${q.id}.mp3`, text: q.name ?? '' }]
+        : [{ src: `/audio/${q.id}-q.mp3`, text: q.q }, { src: `/audio/${q.id}.mp3`, text: q.a }] // question first, then answer
     if (!this.muted) speak(parts, this.auto ? this.seconds : undefined)
     this.schedule()
   }

@@ -9,8 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@geajs/core": "^1.0.0",
-    "@geajs/ui": "^0.2.10"
+    "@geajs/core": "^1.0.0"
   },
   "devDependencies": {
     "@geajs/vite-plugin": "^1.0.0",

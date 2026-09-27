@@ -1,8 +1,15 @@
 [
-  { "id": 1, "type": "image", "category": "Levhalar", "image": "/signs/dur.svg", "q": "Bu levha neyi ifade eder?", "a": "Dur. Kavşağa girmeden önce tam durulur, sonra yol verilerek geçilir." },
-  { "id": 2, "type": "image", "category": "Levhalar", "image": "/signs/yol-ver.svg", "q": "Bu levha neyi ifade eder?", "a": "Yol ver. Anayoldaki araçlara yol verilir." },
-  { "id": 3, "type": "image", "category": "Levhalar", "image": "/signs/kapali.svg", "q": "Bu levha neyi ifade eder?", "a": "Taşıt trafiğine kapalı yol. Her iki yönden taşıt girişi yasaktır." },
+  { "id": 1, "type": "image", "category": "Levhalar", "image": "/signs/dur.svg", "name": "Dur", "q": "Bu levha neyi ifade eder?", "a": "Kavşağa girmeden önce tam durulur, sonra yol verilerek geçilir." },
+  { "id": 2, "type": "image", "category": "Levhalar", "image": "/signs/yol-ver.svg", "name": "Yol ver", "q": "Bu levha neyi ifade eder?", "a": "Kavşağa yaklaşırken yavaşlanır, ana yoldaki araçlara yol verilir." },
+  { "id": 3, "type": "image", "category": "Levhalar", "image": "/signs/kapali.svg", "name": "Taşıt trafiğine kapalı yol", "q": "Bu levha neyi ifade eder?", "a": "Her iki yönden de taşıt girişi yasaktır." },
+  { "id": 7, "type": "image", "category": "Levhalar", "image": "/signs/girilmez.svg", "name": "Girişi olmayan yol", "q": "Bu levha neyi ifade eder?", "a": "Bu yönden yola taşıt girişi yasaktır." },
+  { "id": 8, "type": "image", "category": "Levhalar", "image": "/signs/hiz50.svg", "name": "Azami hız 50", "q": "Bu levha neyi ifade eder?", "a": "Levhadan sonra saatte 50 km’nin üzerinde gidilmez." },
+  { "id": 9, "type": "image", "category": "Levhalar", "image": "/signs/park.svg", "name": "Park yeri", "q": "Bu levha neyi ifade eder?", "a": "Araçların park edebileceği alanı gösterir." },
   { "id": 4, "type": "text", "category": "Yol çizgileri", "q": "Yol ortasına çizilen devamlı beyaz çizgi neyi belirtir?", "a": "Gidiş ve geliş yönlerini ayıran çizgidir; üzerine basılamaz, geçilemez." },
   { "id": 5, "type": "text", "category": "Yol çizgileri", "q": "Yol ortasındaki kesik beyaz çizgi neyi belirtir?", "a": "Şeritleri ayırır; güvenli olduğunda şerit değiştirmek ve geçmek serbesttir." },
-  { "id": 6, "type": "text", "category": "Kurallar", "q": "Yerleşim yeri içinde otomobiller için azami hız kaç km/s'dir?", "a": "50 km/s." }
+  { "id": 6, "type": "text", "category": "Kurallar", "q": "Yerleşim yeri içinde otomobiller için azami hız kaç km/s'dir?", "a": "50 km/s." },
+  { "id": 10, "type": "text", "category": "Kurallar", "q": "Işıksız, levhasız kavşakta geçiş hakkı kimindir?", "a": "Kavşağa önce giren aracındır; aynı anda gelinirse sağdaki araca yol verilir." },
+  { "id": 11, "type": "text", "category": "Kurallar", "q": "Takip mesafesi nasıl hesaplanır?", "a": "Hızın yarısı kadar metre bırakılır. 90 km/s hızda en az 45 metre." },
+  { "id": 12, "type": "text", "category": "Kurallar", "q": "Sarı ışık yandığında ne yapılır?", "a": "Kavşağa girilmediyse durulur; girildiyse geçiş güvenle tamamlanır." },
+  { "id": 13, "type": "text", "category": "Kurallar", "q": "Emniyet şeridi ne zaman kullanılır?", "a": "Yalnızca arıza, kaza ve acil durumlarda duraklamak için." }
 ]

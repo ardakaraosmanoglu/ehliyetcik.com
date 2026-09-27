@@ -4,18 +4,21 @@ import learn from './learn-store'
 
 export type Mode = 'learn' | 'exam'
 export type Kind = 'image' | 'text'
+export type Question = (typeof all)[number] & { name?: string; image?: string }
 
+// App mode + exam state. Learn player state lives in learn-store.
 class StudyStore extends Store {
   mode: Mode = 'learn'
   kind: Kind = 'image'
   started = false // exam in progress
+  pool: Question[] | null = null // exam subset (retry wrong answers)
   index = 0
   revealed = false
-  known = 0
-  missed = 0
+  results: { ok: boolean; q: Question }[] = []
+  lastScore = ''
 
-  get items() {
-    return all.filter((q) => q.type === this.kind)
+  get items(): Question[] {
+    return this.pool ?? this.deck(this.kind)
   }
 
   get current() {
@@ -26,39 +29,62 @@ class StudyStore extends Store {
     return this.index >= this.items.length
   }
 
-  count(kind: Kind) {
-    return all.filter((q) => q.type === kind).length
+  get correct() {
+    return this.results.filter((r) => r.ok).length
+  }
+
+  get missed() {
+    return this.results.filter((r) => !r.ok).map((r) => r.q)
+  }
+
+  get resultTitle() {
+    const ratio = this.correct / (this.results.length || 1)
+    return ratio === 1 ? 'Kusursuz! Hepsini bildin.' : ratio >= 0.6 ? 'Güzel gidiyor.' : 'Biraz daha çalışalım.'
+  }
+
+  deck(kind: Kind): Question[] {
+    return all.filter((q) => q.type === kind)
   }
 
   setMode(mode: Mode) {
+    learn.stop()
     this.mode = mode
     this.started = false
-    this.restart()
   }
 
   setKind(kind: Kind) {
     this.kind = kind
   }
 
-  start() {
-    this.restart()
+  start(pool: Question[] | null = null) {
+    this.pool = pool
+    this.index = 0
+    this.revealed = false
+    this.results = []
     this.started = true
   }
 
+  retryMissed() {
+    this.start(this.missed)
+  }
+
   restart() {
-    learn.stop()
-    this.index = this.known = this.missed = 0
-    this.revealed = false
+    this.start()
+  }
+
+  quit() {
+    this.started = false
   }
 
   reveal() {
     this.revealed = true
   }
 
-  answer(knew: boolean) {
-    knew ? this.known++ : this.missed++
+  answer(ok: boolean) {
+    this.results = [...this.results, { ok, q: this.current }]
     this.index++
     this.revealed = false
+    if (this.done) this.lastScore = `${this.correct} / ${this.results.length}`
   }
 }
 

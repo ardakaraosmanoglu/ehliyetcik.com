@@ -5,26 +5,48 @@ import LearnView from './learn-view'
 import ExamView from './exam-view'
 
 const tab = (active: boolean) =>
-  `relative flex flex-1 flex-col items-center gap-1 py-2 text-[11px] font-medium tracking-wide transition-colors ${
-    active ? 'text-foreground' : 'text-muted-foreground'
+  `flex h-13 flex-1 items-center justify-center gap-2 rounded-full text-[15px] font-bold transition-colors ${
+    active ? 'bg-sage-200 text-sage-900' : 'text-sand-700'
   }`
-const dot = (active: boolean) => `absolute top-0 h-0.5 w-8 rounded-full bg-amber-500 transition-opacity ${active ? 'opacity-100' : 'opacity-0'}`
-const iconBtn = 'flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted active:scale-95'
 
-// Mobile-first: app shell with sticky header and bottom tab bar; on desktop it stays a centered phone-width column.
+// Mobile-first app shell (full screen on phones, framed 390×820 phone on desktop).
 export default class App extends Component {
   template() {
     return (
-      <div class="mx-auto flex min-h-dvh max-w-md flex-col bg-background md:my-6 md:min-h-[calc(100dvh-3rem)] md:rounded-3xl md:border md:shadow-xl">
-        <header class="sticky top-0 z-10 flex items-center gap-2.5 border-b border-border/60 bg-background/80 px-4 pb-2.5 pt-[max(env(safe-area-inset-top),0.625rem)] backdrop-blur-xl">
-          <span class="flex size-7 items-center justify-center rounded-lg bg-foreground text-sm font-bold text-background">E</span>
-          <h1 class="text-base font-semibold tracking-tight">Ehliyetçik</h1>
-          <button class={`ml-auto ${iconBtn}`} aria-label="Ses ayarları" click={learn.toggleSoundMenu}>
-            <span class={learn.muted ? 'icon icon-mute' : 'icon icon-volume'} />
-          </button>
+      <div class="flex h-dvh items-center justify-center md:p-8">
+        <div class="relative flex h-full w-full flex-col overflow-hidden bg-cream select-none md:h-[820px] md:max-w-[390px] md:rounded-[48px] md:shadow-float">
+          <header class="px-3.5 pt-[max(env(safe-area-inset-top),14px)]">
+            <div class="relative flex flex-col gap-3 overflow-hidden rounded-[36px] bg-brand px-3.5 pt-3.5 pb-4 pl-4 text-white">
+              <div class="absolute -top-[70px] right-10 size-[140px] rounded-full bg-brand-400" />
+              <div class="absolute -right-2.5 -bottom-6 size-[60px] rounded-full bg-sage-400" />
+              <div class="relative flex items-center gap-3">
+                <div class="flex size-[50px] -rotate-6 items-center justify-center rounded-[18px] bg-cream font-heading text-[30px] leading-none font-extrabold text-brand-700 shadow-card">
+                  E
+                </div>
+                <span class="flex-1 font-heading text-[28px] leading-none font-extrabold">Ehliyetçik</span>
+                <button
+                  class="flex size-11 items-center justify-center rounded-full bg-brand-600 transition-colors hover:bg-brand-700"
+                  aria-label="Ses ayarları"
+                  click={learn.toggleSoundMenu}
+                >
+                  <span class={learn.muted ? 'icon icon-mute' : 'icon icon-volume'} />
+                </button>
+              </div>
+              <div class="relative flex items-center gap-2.5">
+                <progress class="h-2.5 [--fill:var(--color-cream)] [--track:var(--color-brand-600)]" max={learn.total} value={learn.seen.length} />
+                <span class="text-[13px] font-bold whitespace-nowrap">
+                  {learn.seen.length} / {learn.total} öğrenildi
+                </span>
+              </div>
+            </div>
+          </header>
           {learn.soundMenu && (
-            <div class="absolute top-full right-4 mt-1 flex w-64 items-center gap-3 rounded-2xl border bg-background p-2.5 shadow-lg">
-              <button class={`${iconBtn} shrink-0 bg-muted`} aria-label={learn.muted ? 'Sesi aç' : 'Sesi kapat'} click={learn.toggleMute}>
+            <div class="absolute top-[88px] right-6 z-30 flex w-64 animate-pop items-center gap-3 rounded-full bg-sand-100 p-2 shadow-float">
+              <button
+                class="flex size-10 shrink-0 items-center justify-center rounded-full bg-brand text-white"
+                aria-label={learn.muted ? 'Sesi aç' : 'Sesi kapat'}
+                click={learn.toggleMute}
+              >
                 <span class={learn.muted ? 'icon icon-mute' : 'icon icon-volume'} />
               </button>
               <input
@@ -34,25 +56,25 @@ export default class App extends Component {
                 step="0.05"
                 value={learn.volume}
                 aria-label="Ses seviyesi"
-                class="w-full accent-amber-500"
+                class="mr-2 w-full accent-brand"
                 input={(e: Event) => learn.setVolume(+(e.target as HTMLInputElement).value)}
               />
             </div>
           )}
-        </header>
-        <main class="flex flex-1 flex-col p-4">{study.mode === 'learn' ? <LearnView /> : <ExamView />}</main>
-        <nav class="sticky bottom-0 flex border-t border-border/60 bg-background/80 px-6 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:rounded-b-3xl">
-          <button class={tab(study.mode === 'learn')} click={() => study.setMode('learn')}>
-            <span class={dot(study.mode === 'learn')} />
-            <span class="icon icon-book" />
-            Öğren
-          </button>
-          <button class={tab(study.mode === 'exam')} click={() => study.setMode('exam')}>
-            <span class={dot(study.mode === 'exam')} />
-            <span class="icon icon-exam" />
-            Sınav
-          </button>
-        </nav>
+          <main class="flex min-h-0 flex-1 flex-col">{study.mode === 'learn' ? <LearnView /> : <ExamView />}</main>
+          <nav class="px-6 pt-2 pb-[max(env(safe-area-inset-bottom),22px)]">
+            <div class="flex gap-1.5 rounded-full bg-sand-100 p-1.5 shadow-soft">
+              <button class={tab(study.mode === 'learn')} click={() => study.setMode('learn')}>
+                <span class="icon icon-book" />
+                Öğren
+              </button>
+              <button class={tab(study.mode === 'exam')} click={() => study.setMode('exam')}>
+                <span class="icon icon-exam" />
+                Sınav
+              </button>
+            </div>
+          </nav>
+        </div>
       </div>
     )
   }
