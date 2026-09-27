@@ -58,10 +58,11 @@ class LearnStore extends Store {
   // Card flies out to one side, next one slides in from the other (Web Animations API — Gea doesn't bind reactive `style`).
   async slide(step: number) {
     clearTimeout(this.timer)
+    const el = document.querySelector<HTMLElement>('[data-card]')
     // Hidden documents (some embedded previews) freeze animations, which would leave the card off-screen.
-    const el = document.hidden ? null : document.querySelector<HTMLElement>('[data-card]')
+    const anim = !document.hidden
     const w = step > 0 ? -440 : 440
-    if (el)
+    if (el && anim)
       await el.animate([{ transform: el.style.transform || 'none' }, { transform: `translateX(${w}px) rotate(${w / 22}deg)`, opacity: 0 }], {
         duration: 220,
         easing: 'ease',
@@ -71,7 +72,7 @@ class LearnStore extends Store {
     this.show()
     if (!el) return
     el.style.transform = ''
-    el.animate([{ transform: `translateX(${-w / 6}px)`, opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 220, easing: 'ease' })
+    if (anim) el.animate([{ transform: `translateX(${-w / 6}px)`, opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 220, easing: 'ease' })
   }
 
   next() {

@@ -8,6 +8,11 @@ import '@fontsource/figtree/700.css'
 import App from './app'
 import './styles.css'
 
+// Hidden documents freeze CSS animations mid-way (content stuck invisible), so turn them off there.
+const syncHidden = () => document.documentElement.classList.toggle('hidden-doc', document.hidden)
+syncHidden()
+document.addEventListener('visibilitychange', syncHidden)
+
 const root = document.getElementById('app')
 
 if (!root) {
