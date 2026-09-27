@@ -44,7 +44,7 @@ https://ardakaraosmanoglu.github.io/ehliyetcik.com/privacy.html
 Ehliyetçik is a study app for the North Cyprus (KKTC) driving license exam. No login is needed.
 
 - Works fully offline. All 177 signs, 67 rule questions, images and fonts are bundled in the app.
-- Read-aloud audio: each card is spoken (bundled audio or on-device speech), with mute and a volume slider in the header. Audio also plays when the silent switch is on.
+- Read-aloud audio: each card is spoken (pre-recorded Turkish audio bundled in the app, on-device speech only as a fallback), with mute and a volume slider in the header. Audio also plays when the silent switch is on.
 - Learn mode: swipeable cards with auto-advance (3/5/8 s) and progress saved on the device.
 - Exam mode: see the question, reveal the answer, grade yourself (Bildim / Bilemedim), see the score, then retry only the wrong answers.
 - No data collection, no ads, no analytics, no network requests.

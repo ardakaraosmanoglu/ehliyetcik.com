@@ -20,6 +20,7 @@ export default class About extends Component {
           <strong class="font-heading text-xl">Bu uygulama resmî değildir.</strong>
           <p>Herhangi bir devlet kurumuyla bağlantısı yoktur.</p>
           <p>İçerik kaynağı: KKTC Sürücü Kursu Müfredatı kitapçığı.</p>
+          <p>Seslendirme: Piper TTS, tr_TR-dfki-medium sesi (CC BY-NC-SA 4.0).</p>
         </div>
         <div class="flex flex-col gap-1 rounded-[28px] bg-sand-100 p-5 text-base">
           <span class="text-sand-700">Sürüm</span>

@@ -5,10 +5,10 @@ node_modules: package.json
 	npm install
 	@touch node_modules
 
-dev: node_modules
+dev: node_modules audio
 	npx vite
 
-build: node_modules
+build: node_modules audio
 	npx vite build
 
 preview: build
