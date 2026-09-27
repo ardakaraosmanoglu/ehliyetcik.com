@@ -11,6 +11,7 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 
 ## Design
 - **Mobile-first**, feels like a native app: sticky header, bottom tab bar (Öğren/Sınav), segmented control (Görselli/Metinsel), primary actions at the bottom (thumb zone), safe-area insets, min 44px tap targets.
+- Clean/professional chrome: no emojis in header/nav, line icons (`.icon-*` CSS masks), amber-500 as the single accent.
 - Desktop is secondary: the same phone-width column (`max-w-md`), centered as a card.
 
 ## Audio (TTS)

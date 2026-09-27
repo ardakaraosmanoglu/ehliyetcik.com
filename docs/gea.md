@@ -30,5 +30,6 @@ new App().render(document.getElementById('app')!)
 - Inside `.map()` items: no conditional elements (`{x && <img/>}` / ternary) and no `@geajs/ui` components — bindings shift or crash ("Cannot set properties of null"). Render always, hide via `class`; use plain elements.
 - Function components that read a store at the top (e.g. `if (!store.x) return ...`) don't re-render when it changes. Use a class component with `template()`.
 - Reactive `style={`...${x}`}` is NOT applied to the DOM. For motion, set `el.style` / `el.animate()` (Web Animations API) directly — also faster than re-rendering.
+- Function components returning `<svg>` render nothing. Icons = CSS masks in `src/styles.css`: `<span class="icon icon-book" />` (add new ones there, Lucide paths).
 - `@geajs/ui` components accept `click` (or `onClick`).
 - Tailwind: `src/styles.css` imports `@geajs/ui/style.css` and `@source`s its dist so component classes are generated.
