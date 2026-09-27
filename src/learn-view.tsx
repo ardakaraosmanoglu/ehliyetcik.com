@@ -65,13 +65,13 @@ export default class LearnView extends Component {
           <div class="absolute inset-x-3.5 top-3.5 -bottom-2 rounded-[40px] bg-surface" />
           <div
             data-card
-            class="absolute inset-0 flex cursor-grab touch-pan-y flex-col gap-3.5 rounded-[40px] bg-sand-100 p-7 shadow-card will-change-transform"
+            class="absolute inset-0 flex cursor-grab touch-pan-y flex-col overflow-y-auto overscroll-contain gap-3.5 rounded-[40px] bg-sand-100 p-7 shadow-card will-change-transform"
             pointerdown={down}
             pointermove={move}
             pointerup={up}
             pointercancel={up}
           >
-            <div class={visual ? 'flex min-h-0 flex-1 items-center justify-center' : 'hidden'}>
+            <div class={visual ? 'flex min-h-40 flex-1 items-center justify-center' : 'hidden'}>
               <div class={q.images ? 'flex w-full flex-wrap items-center justify-center gap-2 rounded-[32px] bg-brand-200 p-3' : 'flex size-[230px] max-h-full max-w-full items-center justify-center rounded-full bg-brand-200'}>
                 {(q.images || [q.image || '']).map((src) => (
                   <img src={src} alt="" draggable={false} class={`pointer-events-none object-contain ${q.images ? 'size-[120px]' : 'size-[170px]'} drop-shadow-[0_4px_8px_rgba(46,43,37,.18)]`} />
@@ -79,9 +79,9 @@ export default class LearnView extends Component {
               </div>
             </div>
             <span class={visual ? 'hidden' : 'tag self-start bg-sage-100 text-sage-800'}>Kural {learn.index + 1}</span>
-            <h2 class={`font-heading text-[30px] font-extrabold ${visual ? 'leading-[1.05]' : 'mt-2 leading-[1.1] text-pretty'}`}>{visual ? q.name : q.q}</h2>
+            <h2 class={`shrink-0 font-heading text-[30px] font-extrabold ${visual ? 'leading-[1.05]' : 'mt-2 leading-[1.1] text-pretty'}`}>{visual ? q.name : q.q}</h2>
             <div class={visual ? 'hidden' : 'flex-1'} />
-            <p class={visual ? 'text-base leading-normal text-pretty text-sand-800' : 'min-h-0 touch-pan-y overflow-y-auto overscroll-contain rounded-[28px] bg-sage-100 p-5 text-[17px] leading-normal text-pretty text-sage-900'}>{q.a}</p>
+            <p class={visual ? 'text-base leading-normal text-pretty text-sand-800' : 'shrink-0 rounded-[28px] bg-sage-100 p-5 text-[17px] leading-normal text-pretty text-sage-900'}>{q.a}</p>
           </div>
           {learn.hint && (
             <div class="absolute inset-0 z-20 flex animate-pop flex-col items-start justify-end gap-3.5 rounded-[40px] bg-sand-900/80 px-7 py-8 text-white backdrop-blur-md">
