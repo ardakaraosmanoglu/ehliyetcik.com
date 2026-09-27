@@ -64,8 +64,10 @@ export default class LearnView extends Component {
             pointercancel={up}
           >
             <div class={visual ? 'flex min-h-0 flex-1 items-center justify-center' : 'hidden'}>
-              <div class="flex size-[230px] max-h-full max-w-full items-center justify-center rounded-full bg-brand-200">
-                <img src={q.image || ''} alt="" draggable={false} class="pointer-events-none size-[170px] drop-shadow-[0_4px_8px_rgba(46,43,37,.18)]" />
+              <div class="flex size-[230px] max-h-full max-w-full items-center justify-center rounded-full bg-brand-200 gap-1 px-8">
+                {(q.images || [q.image || '']).map((src) => (
+                  <img src={src} alt="" draggable={false} class="pointer-events-none min-w-0 flex-1 max-w-[170px] max-h-[170px] object-contain drop-shadow-[0_4px_8px_rgba(46,43,37,.18)]" />
+                ))}
               </div>
             </div>
             <span class={visual ? 'hidden' : 'tag self-start bg-sage-100 text-sage-800'}>Kural {learn.index + 1}</span>

@@ -65,8 +65,10 @@ export default class ExamView extends Component {
         />
         <div class={`flex min-h-0 flex-1 flex-col gap-3 overflow-hidden rounded-[40px] bg-sand-100 shadow-card ${open ? 'px-[22px] py-5' : 'p-7'}`}>
           <div class={visual ? 'flex min-h-0 flex-1 items-center justify-center' : 'hidden'}>
-            <div class={`flex items-center justify-center rounded-full bg-brand-200 transition-all duration-350 ${open ? 'size-[130px]' : 'size-[230px]'}`}>
-              <img src={q.image || ''} alt="" class={`drop-shadow-[0_4px_8px_rgba(46,43,37,.18)] transition-all duration-350 ${open ? 'size-24' : 'size-[170px]'}`} />
+            <div class={`flex items-center justify-center gap-1 px-6 rounded-full bg-brand-200 transition-all duration-350 ${open ? 'size-[130px]' : 'size-[230px]'}`}>
+              {(q.images || [q.image || '']).map((src) => (
+                  <img src={src} alt="" class={`min-w-0 flex-1 object-contain drop-shadow-[0_4px_8px_rgba(46,43,37,.18)] transition-all duration-350 ${open ? 'max-h-24 max-w-24' : 'max-h-[170px] max-w-[170px]'}`} />
+                ))}
             </div>
           </div>
           <span class={visual ? 'hidden' : 'tag self-start bg-sage-100 text-sage-800'}>Kural sorusu</span>

@@ -4,7 +4,7 @@ import learn from './learn-store'
 
 export type Mode = 'learn' | 'exam'
 export type Kind = 'image' | 'text'
-export type Question = (typeof all)[number] & { name?: string; image?: string }
+export type Question = (typeof all)[number] & { name?: string; image?: string; images?: string[] }
 
 // App mode + exam state. Learn player state lives in learn-store.
 class StudyStore extends Store {
