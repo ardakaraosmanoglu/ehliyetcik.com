@@ -21,9 +21,7 @@ export default class App extends Component {
               <div class="absolute -top-[70px] right-10 size-[140px] rounded-full bg-brand-400" />
               <div class="absolute -right-2.5 -bottom-6 size-[60px] rounded-full bg-sage-400" />
               <div class="relative flex items-center gap-3">
-                <div class="flex size-[50px] -rotate-6 items-center justify-center rounded-[18px] bg-cream font-heading text-[30px] leading-none font-extrabold text-brand-700 shadow-card">
-                  E
-                </div>
+                <img src="/icon-192.png" alt="Ehliyetçik" class="size-[50px] -rotate-6 rounded-[18px] shadow-card" />
                 <span class="flex-1 font-heading text-[28px] leading-none font-extrabold">Ehliyetçik</span>
                 <button
                   class="flex size-11 items-center justify-center rounded-full bg-brand-600 transition-colors hover:bg-brand-700"
