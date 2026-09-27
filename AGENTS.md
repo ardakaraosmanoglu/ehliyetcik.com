@@ -35,7 +35,7 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 - `src/study-store.ts` — mode (learn/exam), kind (image/text), exam progress
 - `src/learn-store.ts` — Öğren player: in-order, loops, auto-advance (3/5/8 sn), plays `public/audio/<id>.mp3` (Piper), falls back to `speechSynthesis`
 - `src/start-screen.tsx` — shared start screen (pick Görselli/Metinsel + Başla) for both modes
-- Header speaker button mutes all audio; saved in localStorage `ehliyetcik.muted`
+- Header speaker button opens a sound menu: mute toggle + volume slider; saved in localStorage `ehliyetcik.muted` / `ehliyetcik.volume`. Volume uses a Web Audio GainNode (iOS ignores `audio.volume`)
 - `src/audio.ts` — clip playback + speed-to-fit + browser-voice fallback
 - `src/learn-view.tsx` — Öğren: start screen, then swipeable card (pointer events + Web Animations API on `[data-card]`, fly-out/slide-in, no prev/next buttons) + one-time swipe onboarding (localStorage `ehliyetcik.swipeHintSeen`)
 - `src/exam-view.tsx` — Sınav: one question, answer aloud, reveal, self-grade

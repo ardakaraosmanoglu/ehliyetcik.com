@@ -1,11 +1,12 @@
 import { Store } from '@geajs/core'
 import study from './study-store'
-import { speak, stopAudio } from './audio'
+import { setVolume, speak, stopAudio } from './audio'
 
 export const SPEEDS = [3, 5, 8]
 const HINT_KEY = 'ehliyetcik.swipeHintSeen'
 
 const MUTE_KEY = 'ehliyetcik.muted'
+const VOLUME_KEY = 'ehliyetcik.volume'
 
 const saved = (key: string) => {
   try {
@@ -15,10 +16,19 @@ const saved = (key: string) => {
   }
 }
 
-const save = (key: string, on: boolean) => {
+const save = (key: string, value: boolean | number) => {
   try {
-    localStorage.setItem(key, on ? '1' : '0')
+    localStorage.setItem(key, typeof value === 'number' ? String(value) : value ? '1' : '0')
   } catch {}
+}
+
+const savedVolume = () => {
+  try {
+    const v = parseFloat(localStorage.getItem(VOLUME_KEY) ?? '')
+    return v >= 0 && v <= 1 ? v : 1
+  } catch {
+    return 1
+  }
 }
 
 // Learn player: goes through items in order, reads each answer aloud, auto-advances in a loop.
@@ -29,6 +39,8 @@ class LearnStore extends Store {
   index = 0
   hint = false // one-time swipe onboarding
   muted = saved(MUTE_KEY)
+  volume = savedVolume()
+  soundMenu = false
   timer = 0
 
   get current() {
@@ -89,6 +101,17 @@ class LearnStore extends Store {
     if (this.muted) stopAudio()
   }
 
+  toggleSoundMenu() {
+    this.soundMenu = !this.soundMenu
+  }
+
+  setVolume(v: number) {
+    this.volume = v
+    setVolume(v)
+    save(VOLUME_KEY, v)
+    if (this.muted && v > 0) this.toggleMute()
+  }
+
   // Changing auto/speed only resets the timer; it doesn't replay the current card.
   toggleAuto() {
     this.auto = !this.auto
@@ -114,4 +137,6 @@ class LearnStore extends Store {
   }
 }
 
-export default new LearnStore()
+const learn = new LearnStore()
+setVolume(learn.volume)
+export default learn
