@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'Ehliyetçik',
   webDir: 'dist',
   backgroundColor: '#f5ead8',
-  ios: { contentInset: 'never' },
+  ios: { contentInset: 'never', scrollEnabled: false, backgroundColor: '#f5ead8' },
 }
 
 export default config
