@@ -1,4 +1,6 @@
 @import '@geajs/ui/style.css';
 @source '../node_modules/@geajs/ui/dist';
 
-body { @apply bg-background text-foreground antialiased; }
+html { -webkit-tap-highlight-color: transparent; }
+body { @apply bg-muted/40 text-foreground antialiased; overscroll-behavior-y: none; }
+button { touch-action: manipulation; }

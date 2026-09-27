@@ -9,6 +9,10 @@ Driving-license exam study app (Turkish). Turns the driving school booklet (road
 ## Workflow
 - **Auto-commit:** commit after every completed step without asking (this project only). Verify (`make build` + quick browser check) before committing.
 
+## Design
+- **Mobile-first**, feels like a native app: sticky header, bottom tab bar (Öğren/Sınav), segmented control (Görselli/Metinsel), primary actions at the bottom (thumb zone), safe-area insets, min 44px tap targets.
+- Desktop is secondary: the same phone-width column (`max-w-md`), centered as a card.
+
 ## Stack
 - [Gea](https://geajs.com) (`@geajs/core`) + Vite + TypeScript. Class components with `template()` JSX, `Store` classes for state.
 - UI: [`@geajs/ui`](https://www.npmjs.com/package/@geajs/ui) (shadcn-like, Tailwind v4 via `@tailwindcss/vite`). Prefer its components (Button, Card, Badge, Progress…).

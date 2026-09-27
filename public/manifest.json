@@ -1,0 +1,1 @@
+{ "name": "Ehliyetçik", "short_name": "Ehliyetçik", "start_url": "/", "display": "standalone", "background_color": "#ffffff", "theme_color": "#ffffff", "icons": [{ "src": "/favicon.ico", "sizes": "any" }] }

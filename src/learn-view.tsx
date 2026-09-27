@@ -1,20 +1,16 @@
-import { Card, CardContent, Badge } from '@geajs/ui'
 import study from './study-store'
 
+// ponytail: no conditional elements or @geajs/ui components inside .map() items — Gea mis-binds them; img is always rendered and hidden via class
 export default function LearnView() {
   return (
     <div class="grid gap-3">
       {study.items.map((q) => (
-        <Card key={q.id}>
-          <CardContent class="flex gap-4 p-4">
-            {q.image && <img src={q.image} alt="" class="size-20 shrink-0" />}
-            <div class="grid gap-1">
-              <Badge variant="secondary" class="w-fit">{q.category}</Badge>
-              <p class="font-medium">{q.q}</p>
-              <p class="text-muted-foreground text-sm">{q.a}</p>
-            </div>
-          </CardContent>
-        </Card>
+        <article key={q.id} class="grid gap-3 rounded-xl border bg-card p-4">
+          <img src={q.image || ''} alt="" class={q.image ? 'mx-auto size-28' : 'hidden'} />
+          <span class="w-fit rounded-md bg-secondary px-2 py-0.5 text-xs font-semibold">{q.category}</span>
+          <p class="font-medium">{q.q}</p>
+          <p class="text-muted-foreground">{q.a}</p>
+        </article>
       ))}
     </div>
   )
