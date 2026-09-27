@@ -4,3 +4,6 @@
 html { -webkit-tap-highlight-color: transparent; }
 body { @apply bg-muted/40 text-foreground antialiased; overscroll-behavior-y: none; }
 button { touch-action: manipulation; }
+
+@keyframes swipe-hint { 0%, 100% { transform: translateX(0) rotate(0) } 25% { transform: translateX(-40px) rotate(-12deg) } 75% { transform: translateX(40px) rotate(12deg) } }
+.swipe-hint { animation: swipe-hint 1.6s ease-in-out infinite; }

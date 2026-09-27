@@ -1,5 +1,4 @@
 import { Component } from '@geajs/core'
-import { Button } from '@geajs/ui'
 import StartScreen from './start-screen'
 import study from './study-store'
 import learn, { SPEEDS } from './learn-store'
@@ -11,6 +10,7 @@ const chip = (active: boolean) =>
 let startX = 0
 const down = (e: PointerEvent) => {
   startX = e.clientX
+  learn.animating = false
   ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
 }
 const move = (e: PointerEvent) => {
@@ -19,7 +19,10 @@ const move = (e: PointerEvent) => {
 const up = () => {
   if (learn.dx < -80) learn.next()
   else if (learn.dx > 80) learn.prev()
-  else learn.dx = 0
+  else {
+    learn.animating = true
+    learn.dx = 0
+  }
 }
 
 export default class LearnView extends Component {
@@ -29,7 +32,7 @@ export default class LearnView extends Component {
 
     const q = learn.current
     return (
-      <div class="flex flex-1 flex-col gap-4">
+      <div class="relative flex flex-1 flex-col gap-4 overflow-x-clip">
         <div class="flex items-center justify-between text-sm text-muted-foreground">
           <button class="flex items-center gap-1 rounded-full bg-muted px-3 py-1.5 font-semibold text-foreground transition-transform active:scale-95" click={learn.stop}>
             ← Geri
@@ -37,7 +40,7 @@ export default class LearnView extends Component {
           <span class="rounded-full bg-amber-100 px-3 py-1.5 font-bold text-amber-900">{learn.index + 1} / {study.items.length}</span>
         </div>
         <div
-          class="flex flex-1 touch-pan-y select-none flex-col justify-center gap-5 rounded-3xl border bg-card p-6 shadow-xl shadow-black/5 transition-transform duration-75"
+          class={`flex flex-1 touch-pan-y select-none flex-col justify-center gap-5 rounded-3xl border bg-card p-6 shadow-xl shadow-black/5 ${learn.animating ? 'transition-transform duration-200 ease-out' : ''}`}
           style={`transform: translateX(${learn.dx}px) rotate(${learn.dx / 25}deg)`}
           pointerdown={down}
           pointermove={move}
@@ -56,10 +59,19 @@ export default class LearnView extends Component {
             <button class={chip(learn.seconds === SPEEDS[2])} click={() => learn.setSeconds(SPEEDS[2])}>{SPEEDS[2]}sn</button>
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-3">
-          <Button variant="outline" size="lg" class="h-12 text-base" click={learn.prev}>← Önceki</Button>
-          <Button size="lg" class="h-12 bg-gradient-to-r from-amber-400 to-orange-500 text-base font-bold text-white" click={learn.next}>Sonraki →</Button>
-        </div>
+        {learn.hint && (
+          <div class="absolute inset-0 z-20 flex flex-col items-center justify-center gap-6 rounded-3xl bg-black/70 p-8 text-center text-white backdrop-blur-sm">
+            <span class="swipe-hint text-6xl">👆</span>
+            <div class="grid gap-2">
+              <p class="text-xl font-bold">Kaydırarak geç</p>
+              <p class="text-white/80">⬅️ Sola kaydır: sonraki levha</p>
+              <p class="text-white/80">➡️ Sağa kaydır: önceki levha</p>
+            </div>
+            <button class="h-12 w-full rounded-2xl bg-white text-lg font-bold text-black active:scale-95" click={learn.closeHint}>
+              Anladım 👍
+            </button>
+          </div>
+        )}
       </div>
     )
   }

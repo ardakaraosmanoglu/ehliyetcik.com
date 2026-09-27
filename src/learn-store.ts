@@ -3,6 +3,15 @@ import study from './study-store'
 import { speak, stopAudio } from './audio'
 
 export const SPEEDS = [3, 5, 8]
+const HINT_KEY = 'ehliyetcik.swipeHintSeen'
+
+const hintSeen = () => {
+  try {
+    return localStorage.getItem(HINT_KEY) === '1'
+  } catch {
+    return false
+  }
+}
 
 // Learn player: goes through items in order, reads each answer aloud, auto-advances in a loop.
 class LearnStore extends Store {
@@ -10,7 +19,9 @@ class LearnStore extends Store {
   auto = true
   seconds = 5
   index = 0
-  dx = 0 // swipe drag offset in px
+  dx = 0 // card offset in px (drag or slide animation)
+  animating = false // true = CSS transition on, false = card follows the finger
+  hint = false // one-time swipe onboarding
   timer = 0
 
   get current() {
@@ -20,6 +31,7 @@ class LearnStore extends Store {
   start() {
     this.index = 0
     this.playing = true
+    this.hint = !hintSeen()
     this.show()
   }
 
@@ -29,40 +41,65 @@ class LearnStore extends Store {
     stopAudio()
   }
 
-  go(step: number) {
-    const n = study.items.length
-    this.index = (this.index + step + n) % n
-    this.show()
+  closeHint() {
+    this.hint = false
+    try {
+      localStorage.setItem(HINT_KEY, '1')
+    } catch {}
+    this.schedule()
+  }
+
+  // Card flies out to one side, next one slides in from the other.
+  slide(step: number) {
+    clearTimeout(this.timer)
+    this.animating = true
+    this.dx = step > 0 ? -window.innerWidth : window.innerWidth
+    setTimeout(() => {
+      const n = study.items.length
+      this.index = (this.index + step + n) % n
+      this.animating = false
+      this.dx = -this.dx / 2
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          this.animating = true
+          this.dx = 0
+        }),
+      )
+      this.show()
+    }, 200)
   }
 
   next() {
-    this.go(1)
+    this.slide(1)
   }
 
   prev() {
-    this.go(-1)
+    this.slide(-1)
   }
 
+  // Changing auto/speed only resets the timer; it doesn't replay the current card.
   toggleAuto() {
     this.auto = !this.auto
-    this.show()
+    this.schedule()
   }
 
   setSeconds(s: number) {
     this.seconds = s
-    this.show()
+    this.schedule()
+  }
+
+  schedule() {
+    clearTimeout(this.timer)
+    if (this.auto && !this.hint) this.timer = window.setTimeout(() => this.next(), this.seconds * 1000)
   }
 
   show() {
-    this.dx = 0
-    clearTimeout(this.timer)
     const q = this.current
     const parts = [{ src: `/audio/${q.id}.mp3`, text: q.a }]
     if (q.type === 'text') parts.unshift({ src: `/audio/${q.id}-q.mp3`, text: q.q }) // question first, then answer
     speak(parts, this.auto ? this.seconds : undefined)
-    if (this.auto) this.timer = window.setTimeout(() => this.next(), this.seconds * 1000)
+    this.schedule()
   }
 }
-
 
 export default new LearnStore()
