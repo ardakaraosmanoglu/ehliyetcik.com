@@ -82,11 +82,11 @@ export default class LearnView extends Component {
               <div class="flex flex-col gap-2 text-base">
                 <div class="flex items-center gap-2.5">
                   <span class="icon icon-arrow-left size-[18px]" />
-                  Sola kaydır: sonraki levha
+                  Sola kaydır: sonraki kart
                 </div>
                 <div class="flex items-center gap-2.5">
                   <span class="icon icon-arrow-right size-[18px]" />
-                  Sağa kaydır: önceki levha
+                  Sağa kaydır: önceki kart
                 </div>
               </div>
               <button class="mt-3 h-[52px] rounded-full bg-cream px-8 text-base font-bold text-ink hover:bg-brand-200" click={learn.closeHint}>

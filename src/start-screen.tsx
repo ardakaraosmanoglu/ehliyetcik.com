@@ -22,8 +22,8 @@ export default class StartScreen extends Component {
               <img src="/signs/dur.svg" alt="" class="size-[72px] drop-shadow-[0_4px_8px_rgba(46,43,37,.18)]" />
             </div>
             <div class="flex flex-col items-start gap-1.5">
-              <span class="font-heading text-[26px] leading-none font-extrabold">Görselli</span>
-              <span class="tag bg-sand-100 text-sand-800">{study.deck('image').length} levha</span>
+              <span class="font-heading text-[26px] leading-none font-extrabold">İşaretler</span>
+              <span class="tag bg-sand-100 text-sand-800">{study.deck('image').length} işaret</span>
             </div>
           </button>
           <button class={card(study.kind === 'text', 'rotate-3')} click={() => study.setKind('text')}>
@@ -32,7 +32,7 @@ export default class StartScreen extends Component {
             </span>
             <div class="flex size-[104px] items-center justify-center rounded-full bg-sage-200 font-heading text-[44px] font-extrabold text-sage-800">Aa</div>
             <div class="flex flex-col items-start gap-1.5">
-              <span class="font-heading text-[26px] leading-none font-extrabold">Metinsel</span>
+              <span class="font-heading text-[26px] leading-none font-extrabold">Kurallar</span>
               <span class="tag bg-sand-100 text-sand-800">{study.deck('text').length} kural</span>
             </div>
           </button>
