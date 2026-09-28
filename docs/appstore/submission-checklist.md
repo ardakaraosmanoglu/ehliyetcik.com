@@ -1,7 +1,7 @@
 # App Store submission checklist
 
 Done in the repo:
-- [x] Bundle ID `com.ehliyetcik.app`, version 1.0.0 (build 1), iPhone only, portrait only
+- [x] Bundle ID `com.ehliyetcik.app`, version 1.0.0 (build 5), iPhone only, portrait only
 - [x] `ITSAppUsesNonExemptEncryption = false`, `UIRequiredDeviceCapabilities = arm64`
 - [x] App-level `ios/App/App/PrivacyInfo.xcprivacy` (no tracking, no collected data, no required-reason APIs); Capacitor 8 ships its own empty manifest too
 - [x] Bundled Piper audio for every question (`public/audio`, 311 mp3)
