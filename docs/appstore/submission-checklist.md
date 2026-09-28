@@ -5,7 +5,7 @@ Done in the repo:
 - [x] `ITSAppUsesNonExemptEncryption = false`, `UIRequiredDeviceCapabilities = arm64`
 - [x] App-level `ios/App/App/PrivacyInfo.xcprivacy` (no tracking, no collected data, no required-reason APIs); Capacitor 8 ships its own empty manifest too
 - [x] Bundled Piper audio for every question (`public/audio`, 311 mp3)
-- [x] Icon, 6.9" screenshots, metadata (`docs/appstore/metadata.md`), privacy/support pages (`site/`)
+- [x] Icon, 6.9" screenshots (1320×2868, no alpha, retaken for build 5: home, learn sign, exam, learn rule, sound menu, exam answer), metadata (`docs/appstore/metadata.md`), privacy/support pages (`site/`)
 
 In Xcode (after `make ios`):
 - [ ] Run on a real iPhone: Öğren audio plays (also with the silent switch on), swipe, Sınav, retry wrong answers, About links
@@ -19,4 +19,4 @@ In App Store Connect:
 - [ ] App Privacy: "Data Not Collected"
 - [ ] Privacy Policy URL and Support URL: https://ardakaraosmanoglu.github.io/ehliyetcik.com/ (check pages are live, repo must be public or on a paid plan)
 - [ ] Pricing: Free (the Piper voice is CC BY-NC-SA 4.0, non-commercial only)
-- [ ] Paste description, keywords, review notes from `docs/appstore/metadata.md`, upload screenshots, select the build, submit
+- [ ] Paste description, keywords, review notes from `docs/appstore/metadata.md`, upload the 6 screenshots from `docs/appstore/` (6.9" set), select the build (number must be higher than any already uploaded), submit
