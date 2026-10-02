@@ -1,6 +1,7 @@
 import { Store } from '@geajs/core'
 import all from './data/questions.json'
 import learn from './learn-store'
+import favs from './favorites-store'
 
 export type Mode = 'learn' | 'exam'
 export type Kind = 'image' | 'text'
@@ -18,7 +19,7 @@ class StudyStore extends Store {
   lastScore = ''
 
   get items(): Question[] {
-    return this.pool ?? this.deck(this.kind)
+    return this.pool ?? this.deck(this.kind, false)
   }
 
   get current() {
@@ -42,8 +43,22 @@ class StudyStore extends Store {
     return ratio === 1 ? 'Kusursuz! Hepsini bildin.' : ratio >= 0.6 ? 'Güzel gidiyor.' : 'Biraz daha çalışalım.'
   }
 
-  deck(kind: Kind): Question[] {
-    return all.filter((q) => q.type === kind)
+  // Questions of a kind, narrowed to starred ones when the filter is on.
+  deck(kind: Kind, onlyFavs = favs.only): Question[] {
+    return all.filter((q) => q.type === kind && (!onlyFavs || favs.has(q.id)))
+  }
+
+  get starred() {
+    return this.deck(this.kind, true).length
+  }
+
+  get empty() {
+    return favs.only && this.starred === 0
+  }
+
+  // Snapshot so starring/unstarring mid-session does not reshuffle the deck.
+  get favPool() {
+    return favs.only ? this.deck(this.kind) : null
   }
 
   setMode(mode: Mode) {
@@ -57,7 +72,7 @@ class StudyStore extends Store {
   }
 
   start(pool: Question[] | null = null) {
-    this.pool = pool
+    this.pool = pool ?? this.favPool
     this.index = 0
     this.revealed = false
     document.querySelectorAll('[data-scroll]').forEach((e) => (e.scrollTop = 0))

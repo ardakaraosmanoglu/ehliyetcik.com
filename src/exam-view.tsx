@@ -1,6 +1,7 @@
 import { Component } from '@geajs/core'
 import study from './study-store'
 import StartScreen from './start-screen'
+import StarButton from './star-button'
 
 const pill = 'flex h-[58px] w-full items-center justify-center gap-2 rounded-full text-[17px] font-bold transition-colors'
 
@@ -54,9 +55,12 @@ export default class ExamView extends Component {
             <span class="icon icon-x size-[18px]" />
             Bitir
           </button>
-          <span class="text-[15px] font-bold">
-            Soru {study.index + 1} / {study.items.length}
-          </span>
+          <div class="flex items-center gap-2.5">
+            <span class="text-[15px] font-bold">
+              Soru {study.index + 1} / {study.items.length}
+            </span>
+            <StarButton id={q.id} />
+          </div>
         </div>
         <progress
           class="h-2.5 [--fill:var(--color-sage)] [--track:var(--color-sand-100)]"

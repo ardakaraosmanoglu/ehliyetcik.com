@@ -1,5 +1,6 @@
 import { Component } from '@geajs/core'
 import study from './study-store'
+import favs from './favorites-store'
 
 const card = (on: boolean, tilt: string) =>
   `relative flex h-[230px] flex-col items-start justify-between rounded-[40px] border-[3px] p-4 text-left text-ink transition-[transform,background] duration-250 ease-[cubic-bezier(.3,1.6,.5,1)] hover:bg-brand-100 ${
@@ -41,9 +42,21 @@ export default class StartScreen extends Component {
           <span class="size-2.5 rounded-full bg-sage" />
           Son sınav: <strong class="text-ink">{study.lastScore}</strong>
         </div>
+        <button
+          class={`flex h-[52px] items-center justify-between rounded-full px-5 text-[15px] font-semibold transition-colors ${favs.only ? 'bg-brand-100 text-brand-800' : 'bg-sand-100'}`}
+          disabled={!favs.only && study.starred === 0}
+          click={() => favs.setOnly(!favs.only)}
+        >
+          <span class="flex items-center gap-2.5">
+            <span class={`icon size-[18px] ${favs.only ? 'icon-star-fill' : 'icon-star'}`} />
+            Sadece yıldızlılar ({study.starred})
+          </span>
+          <span class="tag bg-surface text-sand-800">{favs.only ? 'Açık' : 'Kapalı'}</span>
+        </button>
         <div class="flex-1" />
         <button
-          class="flex h-[58px] w-full items-center justify-center gap-2.5 rounded-full bg-brand text-[17px] font-bold text-cream transition-colors hover:bg-brand-600 active:bg-brand-700"
+          class="flex h-[58px] w-full items-center justify-center gap-2.5 rounded-full bg-brand text-[17px] font-bold text-cream transition-colors hover:bg-brand-600 active:bg-brand-700 disabled:opacity-40"
+          disabled={study.empty}
           click={this.props.start}
         >
           <span class="icon icon-play size-[18px]" />

@@ -2,6 +2,7 @@ import { Component } from '@geajs/core'
 import StartScreen from './start-screen'
 import study from './study-store'
 import learn from './learn-store'
+import StarButton from './star-button'
 
 
 // Swipe like Tinder: card follows the finger, release past 70px = next/prev, otherwise springs back.
@@ -47,6 +48,7 @@ export default class LearnView extends Component {
             <span class="tag bg-brand-100 font-bold text-brand-800">
               {learn.index + 1} / {study.items.length}
             </span>
+            <StarButton id={q.id} />
             <button
               class={`flex size-10 items-center justify-center rounded-full transition-colors ${learn.auto ? 'bg-sage-700 text-white' : 'bg-sand-100 hover:bg-brand-100'}`}
               aria-label={learn.auto ? 'Duraklat' : 'Otomatik oynat'}

@@ -36,6 +36,7 @@ class LearnStore extends Store {
   }
 
   start() {
+    study.pool = study.favPool
     this.index = 0
     this.playing = true
     this.hint = !load('ehliyetcik.swipeHintSeen', false)
