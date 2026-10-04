@@ -1,5 +1,5 @@
 # Generates public/audio/<id>.mp3 (sign name / text answer) and <id>-q.mp3 (text question) with Piper TTS (offline, Turkish).
-# Skips files that already exist; delete one to regenerate. Run via `make audio`.
+# Also <id>-a/-aN/-h clips for the Yeni Öğren mode. Skips files that already exist; delete one to regenerate. Run via `make audio`.
 import json, pathlib, subprocess, urllib.request, wave
 from piper import PiperVoice
 
@@ -28,3 +28,6 @@ for q in json.load(open("src/data/questions.json")):
     else:  # text: question is read before the answer
         render(q["q"], out / f"{q['id']}-q.mp3")
         render(q["a"], out / f"{q['id']}.mp3")
+# Coach mode clips (<id>-a, -aN, -h) from src/speech-text.ts
+for c in json.loads(subprocess.check_output(["node", "scripts/clips.ts"])):
+    render(c["text"], out / c["file"])

@@ -45,7 +45,8 @@ class StudyStore extends Store {
 
   // Questions of a kind, narrowed to starred / most-asked ones when the filters are on.
   deck(kind: Kind, onlyFavs = favs.only, onlyTop = favs.onlyTop): Question[] {
-    return all.filter((q: Question) => q.type === kind && (!onlyFavs || favs.has(q.id)) && (!onlyTop || q.top))
+    const list = (all as unknown as Question[]).filter((q) => q.type === kind && (!onlyFavs || favs.has(q.id)) && (!onlyTop || q.top))
+    return onlyTop ? list.sort((a, b) => Number(a.top) - Number(b.top)) : list
   }
 
   get starred() {
