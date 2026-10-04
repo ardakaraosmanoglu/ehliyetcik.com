@@ -5,7 +5,7 @@ Done in the repo:
 - [x] `ITSAppUsesNonExemptEncryption = false`, `UIRequiredDeviceCapabilities = arm64`
 - [x] App-level `ios/App/App/PrivacyInfo.xcprivacy` (no tracking, no collected data, no required-reason APIs); Capacitor 8 ships its own empty manifest too
 - [x] Bundled Piper audio for every question (`public/audio`, 311 mp3)
-- [x] Icon, 6.9" screenshots (1320×2868, no alpha, retaken for build 5: home, learn sign, exam, learn rule, sound menu, exam answer), metadata (`docs/appstore/metadata.md`), privacy/support pages (`site/`)
+- [x] Icon, 6.9" screenshots (1320×2868, no alpha, retaken 2026-10-04: home, coach card, exam, exam answer, settings, sound menu), metadata (`docs/appstore/metadata.md`), privacy/support pages (`site/`)
 
 In Xcode (after `make ios`):
 - [ ] Run on a real iPhone: Öğren audio plays (also with the silent switch on), swipe, Sınav, retry wrong answers, About links
