@@ -3,6 +3,9 @@ import StartScreen from './start-screen'
 import study from './study-store'
 import learn from './learn-store'
 import StarButton from './star-button'
+import settings from './settings-store'
+import CoachAnswer from './coach-answer'
+import CoachControls from './coach-controls'
 
 
 // Swipe like Tinder: card follows the finger, release past 70px = next/prev, otherwise springs back.
@@ -81,9 +84,10 @@ export default class LearnView extends Component {
               </div>
             </div>
             <span class={visual ? 'hidden' : 'tag self-start bg-sage-100 text-sage-800'}>Kural {learn.index + 1}</span>
-            <h2 class={`font-heading font-extrabold ${visual ? 'text-[29px] leading-[1.05]' : `mt-2 leading-[1.1] text-pretty ${q.q.length > 110 ? 'text-2xl' : 'text-[29px]'}`}`}>{visual ? q.name : q.q}</h2>
+            <h2 class={`font-heading font-extrabold ${visual ? 'text-[29px] leading-[1.05]' : `mt-2 leading-[1.1] text-pretty ${q.q.length > 110 ? 'text-2xl' : 'text-[29px]'}`}`}>{visual ? (settings.isNew ? 'Bu nedir?' : q.name) : q.q}</h2>
             <div class={visual ? 'hidden' : 'flex-1'} />
-            <p data-scroll class={visual ? 'text-base leading-normal text-pretty text-sand-800' : 'min-h-24 touch-pan-y overflow-y-auto overscroll-contain rounded-[28px] bg-sage-100 p-5 text-[17px] leading-normal text-pretty text-sage-900'}>{q.a}</p>
+            {settings.isNew ? <CoachAnswer q={q} /> : <p data-scroll class={visual ? 'text-base leading-normal text-pretty text-sand-800' : 'min-h-24 touch-pan-y overflow-y-auto overscroll-contain rounded-[28px] bg-sage-100 p-5 text-[17px] leading-normal text-pretty text-sage-900'}>{q.a}</p>}
+
           </div>
           {learn.hint && (
             <div class="absolute inset-0 z-20 flex animate-pop flex-col items-start justify-end gap-3.5 rounded-[40px] bg-sand-900/80 px-7 py-8 text-white backdrop-blur-md">
@@ -107,6 +111,7 @@ export default class LearnView extends Component {
             </div>
           )}
         </div>
+        {settings.isNew && <CoachControls id={q.id} />}
       </div>
     )
   }

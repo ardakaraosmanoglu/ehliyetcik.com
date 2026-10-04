@@ -1,5 +1,4 @@
 import { Component } from '@geajs/core'
-import learn from './learn-store'
 
 const SITE = 'https://ardakaraosmanoglu.github.io/ehliyetcik.com'
 const link = 'flex h-[52px] items-center justify-between rounded-full bg-sand-100 px-5 text-base font-bold hover:bg-brand-100'
@@ -9,13 +8,8 @@ const link = 'flex h-[52px] items-center justify-between rounded-full bg-sand-10
 export default class About extends Component {
   template() {
     return (
-      <div class="absolute inset-0 z-40 flex flex-col gap-4 overflow-y-auto bg-cream px-6 pt-[max(env(safe-area-inset-top),22px)] pb-[max(env(safe-area-inset-bottom),22px)]">
-        <div class="flex items-center justify-between">
-          <h2 class="font-heading text-[34px] leading-none font-extrabold">Hakkında</h2>
-          <button class="flex size-11 items-center justify-center rounded-full bg-sand-100 hover:bg-brand-100" aria-label="Kapat" click={learn.toggleAbout}>
-            <span class="icon icon-x" />
-          </button>
-        </div>
+      <div class="flex flex-col gap-4">
+        <h3 class="font-heading text-2xl font-extrabold">Hakkında</h3>
         <div class="flex flex-col gap-3 rounded-[28px] bg-brand-100 p-5 text-[17px] leading-normal text-pretty text-brand-800">
           <strong class="font-heading text-xl">Bu uygulama resmî değildir.</strong>
           <p>Herhangi bir devlet kurumuyla bağlantısı yoktur.</p>

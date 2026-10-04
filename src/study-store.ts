@@ -5,7 +5,7 @@ import favs from './favorites-store'
 
 export type Mode = 'learn' | 'exam'
 export type Kind = 'image' | 'text'
-export type Question = (typeof all)[number] & { name?: string; image?: string; images?: string[]; top?: boolean }
+export type Question = (typeof all)[number] & { name?: string; image?: string; images?: string[]; top?: boolean | number; hint?: string }
 
 // App mode + exam state. Learn player state lives in learn-store.
 class StudyStore extends Store {

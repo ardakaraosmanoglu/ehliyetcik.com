@@ -3,6 +3,8 @@ import study from './study-store'
 import all from './data/questions.json'
 import { setVolume, speak, stopAudio } from './audio'
 import { load, store } from './storage'
+import coach from './learn-coach-store'
+import settings from './settings-store'
 
 // Learn player: goes through items in order, reads each aloud, optional auto-advance in a loop.
 class LearnStore extends Store {
@@ -30,7 +32,7 @@ class LearnStore extends Store {
   // One segment per card for the progress dots: done / current / upcoming.
   get dots() {
     return study.items.map((q, i) => ({
-      id: q.id,
+      id: `${q.id}-${i}`,
       cls: `h-1.5 flex-1 rounded-full transition-colors duration-300 ${i < this.index ? 'bg-brand-300' : i === this.index ? 'bg-brand' : 'bg-sand-100'}`,
     }))
   }
@@ -47,6 +49,7 @@ class LearnStore extends Store {
     this.playing = false
     this.auto = false
     clearTimeout(this.timer)
+    coach.cancel()
     stopAudio()
   }
 
@@ -84,6 +87,21 @@ class LearnStore extends Store {
     this.slide(-1)
   }
 
+  // "Zorlandım": flag the card and bring it back once, 3 cards later.
+  markHard() {
+    const q = this.current
+    const on = !coach.isHard(q.id)
+    coach.toggleHard(q.id)
+    if (!on) return
+    const items = [...study.items]
+    items.splice(this.index + 3, 0, q)
+    study.pool = items
+  }
+
+  skip() {
+    coach.skip()
+  }
+
   toggleAbout() {
     this.about = !this.about
     this.soundMenu = false
@@ -117,7 +135,7 @@ class LearnStore extends Store {
 
   schedule() {
     clearTimeout(this.timer)
-    if (this.auto && !this.hint && this.readDone) this.timer = window.setTimeout(() => this.next(), 1000)
+    if (this.auto && !this.hint && this.readDone) this.timer = window.setTimeout(() => this.next(), settings.isNew ? 2000 : 1000)
   }
 
   show() {
@@ -128,6 +146,17 @@ class LearnStore extends Store {
       store('ehliyetcik.seen', this.seen)
     }
     if (this.hint) return // wait for onboarding to close
+    if (settings.isNew) {
+      const run = ++this.run
+      this.readDone = false
+      this.schedule()
+      coach.play(q, () => this.muted).then((ok) => {
+        if (!ok || run !== this.run) return
+        this.readDone = true
+        this.schedule()
+      })
+      return
+    }
     const parts =
       q.type === 'image'
         ? [{ src: `/audio/${q.id}.mp3`, text: q.name ?? '' }]
