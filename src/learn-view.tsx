@@ -51,6 +51,7 @@ export default class LearnView extends Component {
             <span class="tag bg-brand-100 font-bold text-brand-800">
               {learn.index + 1} / {study.items.length}
             </span>
+            <span class="text-[13px] font-semibold text-sand-700">{learn.remaining}</span>
             <StarButton id={q.id} />
             <button
               class={`flex size-10 items-center justify-center rounded-full transition-colors ${learn.auto ? 'bg-sage-700 text-white' : 'bg-sand-100 hover:bg-brand-100'}`}

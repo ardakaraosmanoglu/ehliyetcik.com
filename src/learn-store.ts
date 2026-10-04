@@ -5,6 +5,7 @@ import { setVolume, speak, stopAudio } from './audio'
 import { load, store } from './storage'
 import coach from './learn-coach-store'
 import settings from './settings-store'
+import { remainingLabel } from './remaining'
 
 // Learn player: goes through items in order, reads each aloud, optional auto-advance in a loop.
 class LearnStore extends Store {
@@ -27,6 +28,10 @@ class LearnStore extends Store {
 
   get total() {
     return all.length
+  }
+
+  get remaining() {
+    return remainingLabel(study.items, this.index, settings.isNew)
   }
 
   // One segment per card for the progress dots: done / current / upcoming.
