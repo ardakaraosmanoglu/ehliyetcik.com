@@ -11,6 +11,7 @@
   "dependencies": {
     "@capacitor/core": "^8.5.2",
     "@capacitor/ios": "^8.5.2",
+    "@capacitor/local-notifications": "^8.3.1",
     "@fontsource/baloo-2": "^5.3.0",
     "@fontsource/figtree": "^5.3.0",
     "@geajs/core": "^1.0.0"
