@@ -16,16 +16,20 @@ Ehliyetçik, KKTC sürücü belgesi sınavına hazırlananlar için bir çalış
 
 Öğren modunda trafik işaretlerini ve kuralları kart kart çalışırsın. Kartlar sesli okunur, istersen otomatik oynatmayla kendiliğinden geçer.
 
+Yeni öğrenme modunda her kart üç adımda ilerler: önce soruyu duyarsın, sonra cevabı düşünürsün, ardından cevap satır satır açılır. "Cevabı söyle" ile kendini dener, "Tekrar" ile kartı yeniden dinler, "Zorlandım" dediğin kart 3 kart sonra geri gelir. Ayarlar'dan Eski ya da Yeni öğrenme modunu seçebilirsin.
+
 Sınav modunda soruyu görürsün, cevabı içinden söylersin, sonra cevabı açıp "Bildim" ya da "Bilemedim" dersin. Sonunda puanını görür, bilemediklerini yeniden çalışırsın.
 
 İçerik:
 - 177 trafik işareti ve yol çizgisi
-- 67 kural sorusu ve cevabı
+- 86 kural sorusu ve cevabı
 
 Özellikler:
 - İnternetsiz çalışır
 - Sesli okuma, ses seviyesi ayarı
 - Kaydırarak kart geçişi
+- Yıldızla favori kartlar ve yalnızca favorileri çalışma filtresi
+- "En çok sorulanlar" filtresiyle sınavda sık çıkan 34 soruya odaklanma
 - İlerlemen cihazında saklanır, hesap gerekmez
 - Reklam yok, veri toplanmaz
 
@@ -43,9 +47,10 @@ https://ardakaraosmanoglu.github.io/ehliyetcik.com/privacy.html
 ## Review Notes
 Ehliyetçik is a study app for the North Cyprus (KKTC) driving license exam. No login is needed.
 
-- Works fully offline. All 177 signs, 67 rule questions, images and fonts are bundled in the app.
+- Works fully offline. All 177 signs, 86 rule questions, images and fonts are bundled in the app.
 - Read-aloud audio: each card is spoken (pre-recorded Turkish audio bundled in the app, on-device speech only as a fallback), with mute and a volume slider in the header. Audio also plays when the silent switch is on.
-- Learn mode: swipeable cards with optional auto-advance (5 s) and progress saved on the device.
+- Learn mode has two styles, switched in Settings (Ayarlar): "Eski" (classic) shows swipeable cards that read aloud and optionally auto-advance 1 second after the reading ends, and "Yeni" (default) is a coach flow per card: question is read, 4 seconds to think with the answer blurred, then the answer is revealed line by line, and the next card follows after 2 seconds. Buttons: say the answer, repeat, and "Zorlandım" (hard), which brings the card back 3 cards later. Progress is saved on the device.
+- Favorites: a star button on each card, plus a "starred only" filter on the start screen. A second filter, "En çok sorulanlar" (most asked), limits study to the 34 most frequently asked questions. Both filters can be combined.
 - Exam mode: see the question, reveal the answer, grade yourself (Bildim / Bilemedim), see the score, then retry only the wrong answers.
 - No data collection, no ads, no analytics, no network requests.
 
