@@ -5,6 +5,7 @@ import { load, store } from './storage'
 class FavoritesStore extends Store {
   ids: string[] = load('ehliyetcik.favorites', [])
   only = load('ehliyetcik.onlyFavs', false)
+  onlyTop = load('ehliyetcik.onlyTop', false)
 
   has = (id: string) => this.ids.includes(id)
 
@@ -16,6 +17,11 @@ class FavoritesStore extends Store {
   setOnly = (on: boolean) => {
     this.only = on
     store('ehliyetcik.onlyFavs', on)
+  }
+
+  setOnlyTop = (on: boolean) => {
+    this.onlyTop = on
+    store('ehliyetcik.onlyTop', on)
   }
 }
 

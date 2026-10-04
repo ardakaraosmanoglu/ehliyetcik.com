@@ -7,6 +7,9 @@ const card = (on: boolean, tilt: string) =>
     on ? `border-brand bg-brand-100 ${tilt} -translate-y-1` : 'border-sand-400 bg-sand-100'
   }`
 
+const pill = (on: boolean) =>
+  `flex min-h-[72px] flex-col items-start justify-between gap-2 rounded-[24px] p-3.5 text-left text-[14px] leading-tight font-semibold transition-colors disabled:opacity-50 ${on ? 'bg-brand-100 text-brand-800' : 'bg-sand-100'}`
+
 // Shared home screen for both modes: pick a question type, then start.
 export default class StartScreen extends Component {
   template() {
@@ -42,17 +45,22 @@ export default class StartScreen extends Component {
           <span class="size-2.5 rounded-full bg-sage" />
           Son sınav: <strong class="text-ink">{study.lastScore}</strong>
         </div>
-        <button
-          class={`flex h-[52px] items-center justify-between rounded-full px-5 text-[15px] font-semibold transition-colors ${favs.only ? 'bg-brand-100 text-brand-800' : 'bg-sand-100'}`}
-          disabled={!favs.only && study.starred === 0}
-          click={() => favs.setOnly(!favs.only)}
-        >
-          <span class="flex items-center gap-2.5">
-            <span class={`icon size-[18px] ${favs.only ? 'icon-star-fill' : 'icon-star'}`} />
-            Sadece yıldızlılar ({study.starred})
-          </span>
-          <span class="tag bg-surface text-sand-800">{favs.only ? 'Açık' : 'Kapalı'}</span>
-        </button>
+        <div class="grid grid-cols-2 gap-3">
+          <button class={pill(favs.only)} disabled={!favs.only && study.starred === 0} click={() => favs.setOnly(!favs.only)}>
+            <span class="flex items-center gap-2">
+              <span class={`icon size-[18px] shrink-0 ${favs.only ? 'icon-star-fill' : 'icon-star'}`} />
+              Yıldızlılar ({study.starred})
+            </span>
+            <span class="tag bg-surface text-sand-800">{favs.only ? 'Açık' : 'Kapalı'}</span>
+          </button>
+          <button class={pill(favs.onlyTop)} disabled={!favs.onlyTop && study.topCount === 0} click={() => favs.setOnlyTop(!favs.onlyTop)}>
+            <span class="flex items-center gap-2">
+              <span class="icon icon-flame size-[18px] shrink-0" />
+              En çok sorulanlar ({study.topCount})
+            </span>
+            <span class="tag bg-surface text-sand-800">{favs.onlyTop ? 'Açık' : 'Kapalı'}</span>
+          </button>
+        </div>
         <div class="flex-1" />
         <button
           class="flex h-[58px] w-full items-center justify-center gap-2.5 rounded-full bg-brand text-[17px] font-bold text-cream transition-colors hover:bg-brand-600 active:bg-brand-700 disabled:opacity-40"

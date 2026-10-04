@@ -5,7 +5,7 @@ import favs from './favorites-store'
 
 export type Mode = 'learn' | 'exam'
 export type Kind = 'image' | 'text'
-export type Question = (typeof all)[number] & { name?: string; image?: string; images?: string[] }
+export type Question = (typeof all)[number] & { name?: string; image?: string; images?: string[]; top?: boolean }
 
 // App mode + exam state. Learn player state lives in learn-store.
 class StudyStore extends Store {
@@ -43,22 +43,26 @@ class StudyStore extends Store {
     return ratio === 1 ? 'Kusursuz! Hepsini bildin.' : ratio >= 0.6 ? 'Güzel gidiyor.' : 'Biraz daha çalışalım.'
   }
 
-  // Questions of a kind, narrowed to starred ones when the filter is on.
-  deck(kind: Kind, onlyFavs = favs.only): Question[] {
-    return all.filter((q) => q.type === kind && (!onlyFavs || favs.has(q.id)))
+  // Questions of a kind, narrowed to starred / most-asked ones when the filters are on.
+  deck(kind: Kind, onlyFavs = favs.only, onlyTop = favs.onlyTop): Question[] {
+    return all.filter((q: Question) => q.type === kind && (!onlyFavs || favs.has(q.id)) && (!onlyTop || q.top))
   }
 
   get starred() {
-    return this.deck(this.kind, true).length
+    return this.deck(this.kind, true, false).length
+  }
+
+  get topCount() {
+    return this.deck(this.kind, false, true).length
   }
 
   get empty() {
-    return favs.only && this.starred === 0
+    return (favs.only || favs.onlyTop) && this.deck(this.kind).length === 0
   }
 
   // Snapshot so starring/unstarring mid-session does not reshuffle the deck.
   get favPool() {
-    return favs.only ? this.deck(this.kind) : null
+    return favs.only || favs.onlyTop ? this.deck(this.kind) : null
   }
 
   setMode(mode: Mode) {
